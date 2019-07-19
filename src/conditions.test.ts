@@ -1,6 +1,6 @@
 import checkContextMatchesConditions from './conditions';
 
-describe('src/studentSolutions', () => {
+describe('src/conditions', () => {
   describe('checkContextMatchesConditions should', () => {
     describe('when using AND operator alone, without complex nesting (using both expressive AND or assumed AND)', () => {
       test(`should match when correct organisation_name is in context`, async () => {
