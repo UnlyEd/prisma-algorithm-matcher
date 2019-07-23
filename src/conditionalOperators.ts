@@ -1,15 +1,14 @@
 import { and, not, or } from './logicalOperators';
-import { isEqual, isEqualWith, startsWith, endsWith } from 'lodash'
+import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString } from 'lodash'
+import { IConditionalOperator } from "./Interface";
 
-interface IConditionalOperators {
-  alias: string[];
-
-  call(value: any, contextValue?: any, flags?: string[]): boolean;
-
-  humanlyReadableAs: string;
+function checkStringEqualNoMatchCase(str1: any, str2: any): boolean | undefined {
+  if (typeof str1 === "string" && typeof str2 === "string") {
+    return str1.toLowerCase() === str2.toLowerCase()
+  }
 }
 
-class ConditionalOperators implements IConditionalOperators {
+class ConditionalOperator implements IConditionalOperator {
   alias: string[] = [];
 
   call(value: any, contextValue?: any, flags?: string[]): boolean {
@@ -19,7 +18,7 @@ class ConditionalOperators implements IConditionalOperators {
   humanlyReadableAs: string = '';
 }
 
-class Every extends ConditionalOperators {
+class Every extends ConditionalOperator {
   alias: string[] = ['every'];
 
   call(value: any): boolean {
@@ -29,7 +28,7 @@ class Every extends ConditionalOperators {
   humanlyReadableAs: string = 'every';
 }
 
-class Some extends ConditionalOperators {
+class Some extends ConditionalOperator {
   alias: string[] = ['some'];
 
   call(value: any): boolean {
@@ -39,7 +38,7 @@ class Some extends ConditionalOperators {
   humanlyReadableAs: string = 'some';
 }
 
-class None extends ConditionalOperators {
+class None extends ConditionalOperator {
   alias: string[] = ['none'];
 
   call(value: any): boolean {
@@ -49,11 +48,11 @@ class None extends ConditionalOperators {
   humanlyReadableAs: string = 'none';
 }
 
-class StartsWith extends ConditionalOperators {
+class StartsWith extends ConditionalOperator {
   alias: string[] = ['startsWith', 'sw'];
 
   call(value: string, contextValue: string, flags: string[]): boolean {
-    if (flags.indexOf('i') >= 0)
+    if (flags.includes('i'))
       return startsWith(contextValue.toLowerCase(), value.toLowerCase());
     return startsWith(contextValue, value);
   }
@@ -61,11 +60,11 @@ class StartsWith extends ConditionalOperators {
   humanlyReadableAs: string = 'starts with';
 }
 
-class EndsWith extends ConditionalOperators {
+class EndsWith extends ConditionalOperator {
   alias: string[] = ['endsWith', 'ew'];
 
   call(value: string, contextValue: string, flags: string[]): boolean {
-    if (flags.indexOf('i') >= 0)
+    if (flags.includes('i'))
       return endsWith(contextValue.toLowerCase(), value.toLowerCase());
     return endsWith(contextValue, value);
   }
@@ -73,11 +72,11 @@ class EndsWith extends ConditionalOperators {
   humanlyReadableAs: string = 'ends with';
 }
 
-class Equals extends ConditionalOperators {
+class Equals extends ConditionalOperator {
   alias: string[] = ['equals', 'eq'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
-    if (flags.indexOf('i') >= 0)
+    if (flags.includes('i'))
       return isEqualWith(value, contextValue, (object1: any, object2: any) => {
         if (typeof object1 === "string" && typeof object2 === "string") {
           return object1.toLowerCase() === object2.toLowerCase()
@@ -90,16 +89,12 @@ class Equals extends ConditionalOperators {
   humanlyReadableAs: string = 'equal';
 }
 
-class NotEquals extends ConditionalOperators {
+class NotEquals extends ConditionalOperator {
   alias: string[] = ['ne', 'notEquals'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
-    if (flags.indexOf('i') >= 0)
-      return !isEqualWith(value, contextValue, (object1: any, object2: any) => {
-        if (typeof object1 === "string" && typeof object2 === "string") {
-          return object1.toLowerCase() === object2.toLowerCase()
-        }
-      });
+    if (flags.includes('i'))
+      return !isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
     else
       return !isEqual(value, contextValue);
   }
@@ -108,10 +103,26 @@ class NotEquals extends ConditionalOperators {
 }
 
 //TODO
-class Contains extends ConditionalOperators {
+class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'includes', 'in'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
+    if (isString(value) && isString(contextValue)) {
+      if (flags.includes('i'))
+        return contextValue.toLowerCase().includes(value.toLowerCase());
+      return contextValue.includes(value);
+    }
+    if (isArray(value)) {
+      if (flags.includes('i'))
+        return isEqualWith(value, contextValue, (x, y) => {
+          if (typeof x === "string" && typeof y === "string")
+            return x.toLowerCase() === y.toLowerCase();
+        });
+      return value.includes(contextValue);
+    }
+    if (isObject(value) && isString(contextValue)) {
+      value.hasOwnProperty(contextValue)
+    }
     return false;
   }
 
@@ -119,17 +130,33 @@ class Contains extends ConditionalOperators {
 }
 
 //TODO
-class NotContains extends ConditionalOperators {
+class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'not_includes', 'nin'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
+    if (isString(value) && isString(contextValue)) {
+      if (flags.includes('i'))
+        return !contextValue.toLowerCase().includes(value.toLowerCase());
+      return !contextValue.includes(value);
+    }
+    if (isArray(value)) {
+      if (flags.includes('i'))
+        return !isEqualWith(value, contextValue, (x, y) => {
+          if (typeof x === "string" && typeof y === "string")
+            return x.toLowerCase() === y.toLowerCase();
+        });
+      return !value.includes(contextValue);
+    }
+    if (isObject(value) && isString(contextValue)) {
+      return !value.hasOwnProperty(contextValue)
+    }
     return false;
   }
 
   humanlyReadableAs: string = 'not in';
 }
 
-class GreaterThan extends ConditionalOperators {
+class GreaterThan extends ConditionalOperator {
   alias: string[] = ['greaterThan', 'gt'];
 
   call(value: string | number, contextValue: string | number, flags: string[]): boolean {
@@ -139,7 +166,7 @@ class GreaterThan extends ConditionalOperators {
   humanlyReadableAs: string = 'greaterThan';
 }
 
-class GreaterThanEquals extends ConditionalOperators {
+class GreaterThanEquals extends ConditionalOperator {
   alias: string[] = ['greaterThanEquals', 'gte'];
 
   call(value: string | number, contextValue: string | number, flags: string[]): boolean {
@@ -149,7 +176,7 @@ class GreaterThanEquals extends ConditionalOperators {
   humanlyReadableAs: string = 'greater or equal than';
 }
 
-class LessThan extends ConditionalOperators {
+class LessThan extends ConditionalOperator {
   alias: string[] = ['lessThan', 'lt'];
 
   call(value: string | number, contextValue: string | number, flags: string[]): boolean {
@@ -159,7 +186,7 @@ class LessThan extends ConditionalOperators {
   humanlyReadableAs: string = 'less than';
 }
 
-class LessThanEquals extends ConditionalOperators {
+class LessThanEquals extends ConditionalOperator {
   alias: string[] = ['lessThanEquals', 'lte'];
 
   call(value: string | number, contextValue: string | number, flags: string[]): boolean {

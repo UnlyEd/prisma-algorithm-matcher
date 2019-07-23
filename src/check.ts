@@ -1,7 +1,6 @@
 import { get, map } from "lodash";
-
 import {
-  conditions,
+  defaultOptions,
   DEFAULT_CONDITION,
   EVERY_STRING,
   FLAGS_INDICATOR,
@@ -11,9 +10,10 @@ import {
   SEP_OPERATOR,
   SEP_PATH,
   SOME_STRING
-} from './operators';
+} from './constants';
+import { IConditionalOperator, IFilter } from "./Interface"
+import operators from "./conditionalOperators"
 import { CheckError, ValueNotFound } from './errors';
-import { defaultOptions, IFilter } from './conditions';
 
 /**
  * Finds the target within the "conditions" object.
@@ -28,11 +28,14 @@ import { defaultOptions, IFilter } from './conditions';
  * @return {*}
  */
 export const findInConditions = (operator: string, target: string, flags: string[]) => {
-  for (const key in conditions) {
-    if (conditions[key].alias.includes(operator)) {
-      return conditions[key][target];
+  let returnValue: any = undefined;
+  operators.forEach((operatorObject: IConditionalOperator) => {
+    if (operatorObject.alias.includes(operator)) {
+      returnValue = get(operatorObject, target);
     }
-  }
+  });
+  if (returnValue != undefined)
+    return returnValue;
 
   throw(new CheckError({
     'status': false,
@@ -100,9 +103,8 @@ export const resolveComplexeOperator = (operators: string) => {
  * This value is push back in an array. When the loop is over
  * return the result of the array compute by the appropriate function and for every, or for some and none for none.
  *
- * @param operator
+ * @param operators
  * @param path
- * @param flags
  * @param context
  * @param givenValue
  * @return {{reason: string, flags: *, given_value: *, expected: Array, operator: *, status: *}}

@@ -1,15 +1,22 @@
-interface LogicalOperators {
-  (values: boolean[]): boolean;
-}
+import { ILogicalOperator, ILogicalOperators } from "./Interface";
 
-export const and: LogicalOperators = (values: boolean[]) => {
+export const and: ILogicalOperator = (values: boolean[]) => {
   return values.filter(returnValue => !returnValue).length === 0;
 };
 
-export const or: LogicalOperators = (values: boolean[]) => {
+export const or: ILogicalOperator = (values: boolean[]) => {
   return values.filter(returnValue => returnValue).length > 0;
 };
 
-export const not: LogicalOperators = (values: boolean[]) => {
+export const not: ILogicalOperator = (values: boolean[]) => {
   return values.filter(returnValue => returnValue).length === 0;
+};
+
+/**
+ * Global object containing all logical operators handled
+ */
+export const logicalOperators: ILogicalOperators = {
+  'AND': and,
+  'OR': or,
+  'NOT': not,
 };

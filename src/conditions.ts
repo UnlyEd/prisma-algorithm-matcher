@@ -1,43 +1,8 @@
 import { check } from './check';
-import { and, not, or } from './operators';
+import { logicalOperators } from './logicalOperators';
 import { CheckError } from './errors';
-
-/**
- * Interface is used to collect return values then to be sent to a logical operator
- */
-interface IReturnValuesType {
-  [key: string]: boolean[]
-}
-
-/**
- * Basic interface to use dynamique objects, like : user["name"] = "Toto"
- */
-export interface IFilter {
-  [key: string]: any
-}
-
-/**
- * Interface which contain a pair of a string and function to callback
- */
-interface ILogicalOperators {
-  [key: string]: Function
-}
-
-/**
- * Global object containing all logical operators handled
- */
-const logicalOperators: ILogicalOperators = {
-  'AND': and,
-  'OR': or,
-  'NOT': not,
-};
-
-/**
- * Default options passed to the matching checker
- */
-export const defaultOptions = {
-  'strictMatch': false,
-};
+import { IFilter, IReturnValuesType } from "./Interface";
+import { defaultOptions } from "./constants";
 
 /**
  * Resolve whether the given conditions are matched by the given context
@@ -119,7 +84,7 @@ const checkContextMatchesConditions = (filters: IFilter, context: object, option
   for (let [logicalOperator, isValidConditions] of Object.entries(returnValues)) {
     operatorsValues.push(logicalOperators[logicalOperator](isValidConditions));
   }
-  const isValid = and(operatorsValues);
+  const isValid = logicalOperators["AND"](operatorsValues);
   return {
     'status': isValid,
     'ignoredConditions': ignoredConditionsCollection.length > 0 ? ignoredConditionsCollection : null,

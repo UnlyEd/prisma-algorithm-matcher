@@ -1,4 +1,4 @@
-import { and, not, or } from './operators';
+import { and, not, or } from './logicalOperators';
 import { formatFilters } from './conditions';
 
 /*
