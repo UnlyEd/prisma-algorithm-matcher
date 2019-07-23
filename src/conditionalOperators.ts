@@ -77,11 +77,7 @@ class Equals extends ConditionalOperator {
 
   call(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i'))
-      return isEqualWith(value, contextValue, (object1: any, object2: any) => {
-        if (typeof object1 === "string" && typeof object2 === "string") {
-          return object1.toLowerCase() === object2.toLowerCase()
-        }
-      });
+      return isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
     else
       return isEqual(value, contextValue);
   }
@@ -114,10 +110,7 @@ class Contains extends ConditionalOperator {
     }
     if (isArray(value)) {
       if (flags.includes('i'))
-        return isEqualWith(value, contextValue, (x, y) => {
-          if (typeof x === "string" && typeof y === "string")
-            return x.toLowerCase() === y.toLowerCase();
-        });
+        return isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
       return value.includes(contextValue);
     }
     if (isObject(value) && isString(contextValue)) {
@@ -141,10 +134,7 @@ class NotContains extends ConditionalOperator {
     }
     if (isArray(value)) {
       if (flags.includes('i'))
-        return !isEqualWith(value, contextValue, (x, y) => {
-          if (typeof x === "string" && typeof y === "string")
-            return x.toLowerCase() === y.toLowerCase();
-        });
+        return !isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
       return !value.includes(contextValue);
     }
     if (isObject(value) && isString(contextValue)) {
