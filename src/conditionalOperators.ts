@@ -1,12 +1,53 @@
 import { and, not, or } from './logicalOperators';
-import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString } from 'lodash'
+import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString, keys, get } from 'lodash'
 import { IConditionalOperator } from "./Interface";
 
 function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined {
-  console.log(typeof x, x, typeof y, y);
   if (isString(x) && isString(y)) {
     return x.toLowerCase() === y.toLowerCase()
   }
+}
+
+function containHandleStringString(value: any, contextValue: any, flags: string[]) {
+  if (isString(value) && isString(contextValue)) {
+    if (flags.includes('i'))
+      return contextValue.toLowerCase().includes(value.toLowerCase());
+    return contextValue.includes(value);
+  }
+  return null
+}
+
+function containHandleArray(value: any, contextValue: any, flags: string[]) {
+  if (isArray(value)) {
+    if (flags.includes('i')) {
+      value = value.map((el) => {
+        return isString(el) ? el.toLowerCase() : el;
+      });
+      contextValue = isString(contextValue) ? contextValue.toLowerCase() : contextValue;
+    }
+    return value.includes(contextValue);
+  }
+  return null;
+}
+
+function containHandleStringInObject(value: any, contextValue: any, flags: string[]) {
+  if (isObject(value) && isString(contextValue)) {
+    return value.hasOwnProperty(contextValue)
+  }
+  return null
+}
+
+function containHandleObjectInObject(value: any, contextValue: any, flags: string[]) {
+  if (isObject(value) && isObject(contextValue)) {
+    let ret: boolean = true;
+    keys(value).forEach((el) => {
+      if (keys(contextValue).includes(el) && !isEqual(get(contextValue, el, undefined), get(value, el, null))) {
+        ret = false;
+      }
+    });
+    return ret;
+  }
+  return null
 }
 
 class ConditionalOperator implements IConditionalOperator {
@@ -99,61 +140,36 @@ class NotEquals extends ConditionalOperator {
   humanlyReadableAs: string = 'not';
 }
 
-//TODO
 class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'includes', 'in'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
-    console.log(typeof value, value);
-    console.log(typeof contextValue, contextValue);
-    if (isString(value) && isString(contextValue)) {
-      if (flags.includes('i'))
-        return contextValue.toLowerCase().includes(value.toLowerCase());
-      return contextValue.includes(value);
-    }
-    if (isArray(value)) {
-      if (flags.includes('i')) {
-        value = value.map((el) => {
-          return isString(el) ? el.toLowerCase() : el;
-        });
-        contextValue = isString(contextValue) ? contextValue.toLowerCase() : contextValue;
-      }
-      return value.includes(contextValue);
-    }
-    if (isObject(value) && isString(contextValue)) {
-      value.hasOwnProperty(contextValue)
-    }
-    return false;
+    let ret;
+    ret = containHandleStringString(value, contextValue, flags);
+    if (ret === null)
+      ret = containHandleArray(value, contextValue, flags);
+    if (ret === null)
+      ret = containHandleStringInObject(value, contextValue, flags);
+    if (ret === null)
+      ret = containHandleObjectInObject(value, contextValue, flags);
+    return ret;
   }
 
   humanlyReadableAs: string = 'in';
 }
 
-//TODO
 class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'not_includes', 'nin'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
-    console.log(typeof value, value);
-    console.log(typeof contextValue, contextValue);
-    if (isString(value) && isString(contextValue)) {
-      if (flags.includes('i'))
-        return !contextValue.toLowerCase().includes(value.toLowerCase());
-      return !contextValue.includes(value);
-    }
-    if (isArray(value)) {
-      if (flags.includes('i')) {
-        value = value.map((el) => {
-          return isString(el) ? el.toLowerCase() : el;
-        });
-        contextValue = isString(contextValue) ? contextValue.toLowerCase() : contextValue;
-      }
-      return !value.includes(contextValue);
-    }
-    if (isObject(value) && isString(contextValue)) {
-      value.hasOwnProperty(contextValue)
-    }
-    return false;
+  call(value: any, contextValue: any, flags: string[]): boolean { let ret;
+    ret = containHandleStringString(value, contextValue, flags);
+    if (ret === null)
+      ret = containHandleArray(value, contextValue, flags);
+    if (ret === null)
+      ret = containHandleStringInObject(value, contextValue, flags);
+    if (ret === null)
+      ret = containHandleObjectInObject(value, contextValue, flags);
+    return !ret;
   }
 
   humanlyReadableAs: string = 'not in';
