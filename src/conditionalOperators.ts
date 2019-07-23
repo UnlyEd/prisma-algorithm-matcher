@@ -2,9 +2,10 @@ import { and, not, or } from './logicalOperators';
 import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString } from 'lodash'
 import { IConditionalOperator } from "./Interface";
 
-function checkStringEqualNoMatchCase(str1: any, str2: any): boolean | undefined {
-  if (typeof str1 === "string" && typeof str2 === "string") {
-    return str1.toLowerCase() === str2.toLowerCase()
+function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined {
+  console.log(typeof x, x, typeof y, y);
+  if (isString(x) && isString(y)) {
+    return x.toLowerCase() === y.toLowerCase()
   }
 }
 
@@ -103,14 +104,20 @@ class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'includes', 'in'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
+    console.log(typeof value, value);
+    console.log(typeof contextValue, contextValue);
     if (isString(value) && isString(contextValue)) {
       if (flags.includes('i'))
         return contextValue.toLowerCase().includes(value.toLowerCase());
       return contextValue.includes(value);
     }
     if (isArray(value)) {
-      if (flags.includes('i'))
-        return isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
+      if (flags.includes('i')) {
+        value = value.map((el) => {
+          return isString(el) ? el.toLowerCase() : el;
+        });
+        contextValue = isString(contextValue) ? contextValue.toLowerCase() : contextValue;
+      }
       return value.includes(contextValue);
     }
     if (isObject(value) && isString(contextValue)) {
@@ -127,18 +134,24 @@ class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'not_includes', 'nin'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
+    console.log(typeof value, value);
+    console.log(typeof contextValue, contextValue);
     if (isString(value) && isString(contextValue)) {
       if (flags.includes('i'))
         return !contextValue.toLowerCase().includes(value.toLowerCase());
       return !contextValue.includes(value);
     }
     if (isArray(value)) {
-      if (flags.includes('i'))
-        return !isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
+      if (flags.includes('i')) {
+        value = value.map((el) => {
+          return isString(el) ? el.toLowerCase() : el;
+        });
+        contextValue = isString(contextValue) ? contextValue.toLowerCase() : contextValue;
+      }
       return !value.includes(contextValue);
     }
     if (isObject(value) && isString(contextValue)) {
-      return !value.hasOwnProperty(contextValue)
+      value.hasOwnProperty(contextValue)
     }
     return false;
   }
