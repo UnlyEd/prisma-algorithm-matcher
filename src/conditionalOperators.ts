@@ -1,4 +1,5 @@
 import { and, not, or } from './logicalOperators';
+import { isEqual, isEqualWith, startsWith, endsWith } from 'lodash'
 
 interface IConditionalOperators {
   alias: string[];
@@ -51,8 +52,10 @@ class None extends ConditionalOperators {
 class StartsWith extends ConditionalOperators {
   alias: string[] = ['startsWith', 'sw'];
 
-  call(value: any): boolean {
-    return false;
+  call(value: string, contextValue: string, flags: string[]): boolean {
+    if (flags.indexOf('i') >= 0)
+      return startsWith(contextValue.toLowerCase(), value.toLowerCase());
+    return startsWith(contextValue, value);
   }
 
   humanlyReadableAs: string = 'starts with';
@@ -61,8 +64,10 @@ class StartsWith extends ConditionalOperators {
 class EndsWith extends ConditionalOperators {
   alias: string[] = ['endsWith', 'ew'];
 
-  call(value: any): boolean {
-    return false;
+  call(value: string, contextValue: string, flags: string[]): boolean {
+    if (flags.indexOf('i') >= 0)
+      return endsWith(contextValue.toLowerCase(), value.toLowerCase());
+    return endsWith(contextValue, value);
   }
 
   humanlyReadableAs: string = 'ends with';
@@ -72,7 +77,14 @@ class Equals extends ConditionalOperators {
   alias: string[] = ['equals', 'eq'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
-    return false;
+    if (flags.indexOf('i') >= 0)
+      return isEqualWith(value, contextValue, (object1: any, object2: any) => {
+        if (typeof object1 === "string" && typeof object2 === "string") {
+          return object1.toLowerCase() === object2.toLowerCase()
+        }
+      });
+    else
+      return isEqual(value, contextValue);
   }
 
   humanlyReadableAs: string = 'equal';
@@ -82,12 +94,20 @@ class NotEquals extends ConditionalOperators {
   alias: string[] = ['ne', 'notEquals'];
 
   call(value: any, contextValue: any, flags: string[]): boolean {
-    return false;
+    if (flags.indexOf('i') >= 0)
+      return !isEqualWith(value, contextValue, (object1: any, object2: any) => {
+        if (typeof object1 === "string" && typeof object2 === "string") {
+          return object1.toLowerCase() === object2.toLowerCase()
+        }
+      });
+    else
+      return !isEqual(value, contextValue);
   }
 
   humanlyReadableAs: string = 'not';
 }
 
+//TODO
 class Contains extends ConditionalOperators {
   alias: string[] = ['contains', 'includes', 'in'];
 
@@ -98,6 +118,7 @@ class Contains extends ConditionalOperators {
   humanlyReadableAs: string = 'in';
 }
 
+//TODO
 class NotContains extends ConditionalOperators {
   alias: string[] = ['notContains', 'not_includes', 'nin'];
 
@@ -111,8 +132,8 @@ class NotContains extends ConditionalOperators {
 class GreaterThan extends ConditionalOperators {
   alias: string[] = ['greaterThan', 'gt'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
-    return false;
+  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+    return contextValue > value;
   }
 
   humanlyReadableAs: string = 'greaterThan';
@@ -121,8 +142,8 @@ class GreaterThan extends ConditionalOperators {
 class GreaterThanEquals extends ConditionalOperators {
   alias: string[] = ['greaterThanEquals', 'gte'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
-    return false;
+  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+    return contextValue >= value;
   }
 
   humanlyReadableAs: string = 'greater or equal than';
@@ -131,8 +152,8 @@ class GreaterThanEquals extends ConditionalOperators {
 class LessThan extends ConditionalOperators {
   alias: string[] = ['lessThan', 'lt'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
-    return false;
+  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+    return contextValue < value;
   }
 
   humanlyReadableAs: string = 'less than';
@@ -141,8 +162,8 @@ class LessThan extends ConditionalOperators {
 class LessThanEquals extends ConditionalOperators {
   alias: string[] = ['lessThanEquals', 'lte'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
-    return false;
+  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+    return contextValue <= value;
   }
 
   humanlyReadableAs: string = 'lesser or equal to';
