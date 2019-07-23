@@ -20,7 +20,7 @@ export interface IFilter {
  * Interface which contain a pair of a string and function to callback
  */
 interface ILogicalOperators {
-  [key: string]: any
+  [key: string]: Function
 }
 
 /**
