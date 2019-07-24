@@ -1,9 +1,9 @@
 
 # Conditional Operator   
-This document describes the list of every conditional operator available in src/conditionalOperators.ts  
+This document describes the list of every conditional operator available in src/conditionalOperators.ts.
  
 ## Flags  
-In this algorithm you can add some flag in the context (see example for applications) those flags are used to add a  specific behavior to this variable 
+In this algorithm you can add some flag in the context (see example for applications) those flags are used to add a specific behavior to this variable.
 
 ### list
 * 'i'  is no hard case
@@ -18,7 +18,7 @@ const context = {
 ## Equal
  
 ### definition  
-	 This operator compares two elements and return true if there are equal for the objects the equivalent is base on the content. it's also the default conditional operator 
+	 This operator compares two elements and return true if there are equal for the objects the equivalent is base on the content. it's also the default conditional operator.
 
 ### alias  
 * equals  
@@ -43,7 +43,7 @@ check(context, 'school', {'name':'Unly','Postal_code':69000,}); //true
 ## Not Equal  
   
 ### definition  
-	 Check if two objects are different   
+	 Check if two objects are different.
    
 ### alias  
 * notEquals  
@@ -68,7 +68,7 @@ check(context, 'school__ne', {'name':'Unly','Postal_code':69000,}); //false
 ## StartsWith  
 
 ### definition  
-	 Check if a string start with another
+	 Check if a string start with another.
    
 ### alias  
 * startsWith  
@@ -92,7 +92,7 @@ check(context, 'school_city__sw', 'LY'); //true
 ## EndWith  
   
 ### definition   
-	 Check if a string finish by another
+	 Check if a string finish by another.
 
 ### alias
  * endsWith  
@@ -118,7 +118,7 @@ check(context, 'school_city__sw', 'ON'); //true
 ## Contains  
   
 ### definition   
-	Check if a string contains a given string, if an array contained a specific element or if an object contained another object
+	Check if a string contains a given string, if an array contained a specific element or if an object contained another object.
 
  ### alias  
 * contains  
@@ -147,7 +147,7 @@ check(context, 'school_campus__in', 'unly'); //true
 ## Contains  
   
 ### definition   
-	The opposite of « contain » check if a string does not contain another given string, if an array don't contain a specific element or if an object doesn't contain another object 
+	The opposite of « contain » check if a string does not contain another given string, if an array don't contain a specific element or if an object doesn't contain another object. 
 
 ### alias  
 * notContains  
@@ -176,7 +176,7 @@ check(context, 'school_campus__in', 'unly'); //false
 ## GreaterThan
 
 ### definition   
-	Check if a value is greater than another 
+	Check if a value is greater than another.
 
 ### alias  
 * greaterThan  
@@ -196,7 +196,7 @@ check(context, 'GPA__gt', '2'); //true
 ## GreaterThanEquals
 
 ## definition 
-	Check if a value is greater or equal than another 
+	Check if a value is greater or equal than another.
 
 
 ### alias  
@@ -217,7 +217,7 @@ check(context, 'GPA__gte', '2'); //true
 ## LessThan
 
 ### definition   
-	Check if a value is less than another 
+	Check if a value is less than another.
 
 
 ### alias  
@@ -236,8 +236,8 @@ check(context, 'GPA__lt', '4'); //true
 ```
 ## LessThanEquals
 
-## definition 
-	Check if a value is less or equal than another 
+### definition 
+    Check if a value is less or equal than another.
 
 ### alias  
 * lessThanEquals  
@@ -255,8 +255,8 @@ check(context, 'GPA__lte', '4'); //true
 
 ## Every
 
-#### definition
-  This is a complex operator who's checking every occupancy match the given condition.
+### definition
+    This is a complex operator who's checking every occupancy match the given condition.
   
 ### alias
 * every
@@ -279,7 +279,7 @@ check(context, 'students_promotion__every_gte', 1); //true
 ## Some
 
 #### definition
-  This is a complex operator who's  checking some occupancy match the given condition.
+    This is a complex operator who's  checking some occupancy match the given condition.
   
 ### alias
 * some
@@ -301,7 +301,7 @@ check(context, 'students_promotion__some_eq', 2); //true
 ## None
 
 #### definition
-  This is a complex operator who's  checking none occupancy match the given condition.
+    This is a complex operator who's  checking none occupancy match the given condition.
   
 ### alias
 * none
