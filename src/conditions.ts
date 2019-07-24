@@ -88,7 +88,7 @@ const checkContextMatchesConditions = (filters: IFilter, context: object, option
   return {
     'status': isValid,
     'ignoredConditions': ignoredConditionsCollection.length > 0 ? ignoredConditionsCollection : null,
-    'reason': !isValid ? 'Top-level "AND" condition returned false' : null,
+    'reason': !isValid ? 'Top-level "AND" condition returned false' : undefined,
   };
 };
 

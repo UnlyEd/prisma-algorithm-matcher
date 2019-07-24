@@ -176,6 +176,7 @@ export const check = (context: object, rule: string, value: any, options: any = 
       // XXX In "strict match" mode, missing values in context are treated as a match failure
       return {
         'status': false,
+        'rule':rule,
         'conditionalOperator': conditionalOperator,
         'given_value': value,
         'valueInContext': valueInContext,
@@ -187,6 +188,7 @@ export const check = (context: object, rule: string, value: any, options: any = 
       //  This exception must be handled by the caller, and should be used to resolve whether the check fails or not (based on a group of "checks", for instance)
       throw(new ValueNotFound({
         'status': null,
+        'rule':rule,
         'conditionalOperator': conditionalOperator,
         'path': path,
         'valueInContext': valueInContext,
@@ -200,6 +202,7 @@ export const check = (context: object, rule: string, value: any, options: any = 
 
   return {
     'status': status,
+    'rule':rule,
     'operator': conditionalOperator,
     'given_value': value,
     'valueInContext': valueInContext,
