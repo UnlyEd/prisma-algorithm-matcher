@@ -1,4 +1,4 @@
-import contextMatcher from '@unly/conditions-matcher';
+import contextMatcher from '../../lib/conditions';
 
 const isInNewYorkCondition = {
   'school_location_city': "New York",
@@ -35,11 +35,11 @@ const context = {
 };
 
 const isInNewYork = contextMatcher(isInNewYorkCondition, context);
-console.log(isInNewYork);
+//console.log(isInNewYork);
 // { status: true, ignoredConditions: null }
 
 const isGoodSchool = contextMatcher(isGoodSchoolCondition, context);
-console.log(isGoodSchool);
+//console.log(isGoodSchool);
 // { status: true, ignoredConditions: null }
 
 const mediumResults = contextMatcher(mediumCondition, context);

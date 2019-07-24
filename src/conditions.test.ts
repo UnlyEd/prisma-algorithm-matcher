@@ -595,7 +595,7 @@ describe('src/conditions', () => {
           };
           const { status, ignoredConditions } = checkContextMatchesConditions(filtersNestedSimple, context);
           expect(status).toEqual(true);
-          expect(ignoredConditions).toMatchObject([{ operator: 'wrong-arg' }]);
+          expect(ignoredConditions).toMatchObject([{ conditionalOperator: 'wrong-arg' }]);
         });
 
         test(`should work with multiple AND, OR and NOT`, async () => {
