@@ -1,144 +1,251 @@
-# Conditions
 
-## equals
-### alias 
-* equals
-* eq
+# Conditional Operator   
+ This document describes the list of every conditional operator available in src/conditionalOperators.ts  
+ 
+## Flags  
+in this algorithm you can add some flag in the context (see example for applications) those flags are used to add a  specific behavior to this variable for the moment only the flag i (no hard case is implemented)  
+  
+### example  
+```js  
+const context = {  
+ 'name':'Unly',  
+ 'name__flags':['i']}  
+```  
+  
+## Equal
+ 
+### definition  
+	 This operator compares two elements and return true if there are equal for the objects the equivalent is base on the content. it's also the default conditional operator 
 
-### supported type
-* object to object
-* string to string
-* number to number
-* number to string
-* array to array
-* bool to bool
+### alias  
+* equals  
+* eq  
+  
+### example  
+```js  
+const context = {  
+ 'school':{  
+ 'name':'Unly',  
+ 'city':'lyon',  
+ 'city__flags':['i'],  
+ 'Postal_code':69000,
+ }  
+}  
+check(context, 'school_name__eq', 'Unly'); //true  
+check(context, 'school_name__equals', 'unly'); //false  
+check(context, 'school_city__equals', 'LYON'); //true  
+check(context, 'school', {'name':'Unly','Postal_code':69000,}); //true  
+```  
+  
+## Not Equal  
+  
+### definition  
+	 check if two objects are different   
+   
+### alias  
+* notEquals  
+* ne  
+  
+### example  
+```js  
+const context = {  
+ 'school':{  
+ 'name':'Unly',  
+ 'city':'lyon',  
+ 'city__flags':['i'],  
+ 'Postal_code':69000,
+ }  
+}  
+check(context, 'school_name__ne', 'Unly'); //false  
+check(context, 'school_name__notEquals', 'unly'); //true  
+check(context, 'school_city__notEquals', 'LYON'); //false  
+check(context, 'school__ne', {'name':'Unly','Postal_code':69000,}); //false  
+```  
+  
+## StartsWith  
 
-### example
-* "string" equal "string" === true
-* {"yes":42, "no":24} equal {"no":24, "yes":42} === true
-* 42 equal "42" === true
-* [42, 24] equal [42, 24] == true
-* [24, 42] equal [42, 24] == false
-
-## notEquals
-### alias 
-
-* notEquals
-* ne
-
-### supported type
-* string
-* number
-* object
-* array
-
-
-### example
-* "nostring" notEquals "string" === true
-
-## contains
+### definition  
+	 check if a string start with another
+   
+### alias  
+* startsWith  
+* sw  
+  
+### example  
+```js  
+const context = {  
+ 'school':{  
+ 'name':'Unly',  
+ 'city':'lyon',  
+ 'city__flags':['i'],  
+ 'Postal_code':69000,  
+ }  
+}  
+check(context, 'school_name__sw', 'Un'); //true  
+check(context, 'school_name__sw', 'un'); //false  
+check(context, 'school_city__sw', 'LY'); //true  
+```  
+  
+## EndWith  
+  
+### definition   
+	 check if a string finish by another
 
 ### alias
-* contains
-* includes
-*in
+ * endsWith  
+* ew  
+  
+### example  
+  
+```js  
+const context = {  
+ 'school':{  
+ 'name':'Unly',  
+ 'city':'lyon',  
+ 'city__flags':['i'],  
+ 'Postal_code':69000,  
+ }  
+}  
+  
+check(context, 'school_name__sw', 'ly'); //true  
+check(context, 'school_name__sw', 'LY'); //false  
+check(context, 'school_city__sw', 'ON'); //true  
+```  
+  
+## Contains  
+  
+### definition   
+	check if a string contains a given string, if an array contained a specific element or if an object contained another object
 
-### supported type
-* string to string
-* string to array
-* number to array
-* bool to array
-* object to object
+ ### alias  
+* contains  
+* includes  
+* in
 
 ### example
-* "ing" contains "string" === true
-* "string" contains ["string", "42"] === true 
-* {"name":"epi"} contains {"name":"epi", "number":42}===true
 
-## notContains
+```js  
+const context = {  
+ "name":"Paul",  
+ "location":{  
+  "city":"lyon",  
+  "post_code":69000  
+ },  
+ "campus":[42, "Unly"]  
+ "campus__flags":['i']  
+}  
+check(context, 'school_name__in', 'aul'); //true  
+check(context, 'school_location__in', {'city':"lyon"}); //true  
+check(context, 'school_campus__in', 42); //true  
+check(context, 'school_campus__in', 'Unly'); //true  
+check(context, 'school_campus__in', 'unly'); //true  
+```
 
-### alias
-* notContains
-* notIncludes
+## Contains  
+  
+### definition   
+	the opposite of « contain » check if a string does not contain another given string, if an array don't contain a specific element or if an object doesn't contain another object 
+
+### alias  
+* notContains  
+* notIncludes  
 * nin
 
-### supported type
-* string to string
-* string to array
-
 ### example
-* "tech" contains "string" === false
-* "epitech" contains ["string", "42"] === false 
 
-## greaterThan
+```js  
+const context = {  
+ "name":"Paul",  
+ "location":{  
+  "city":"lyon",  
+  "post_code":69000  
+ },  
+ "campus":[42, "Unly"]  
+ "campus__flags":['i']  
+}  
+check(context, 'school_name__in', 'aul'); //flase  
+check(context, 'school_location__in', {'city':"lyon"}); //false  
+check(context, 'school_campus__in', 42); //false
+check(context, 'school_campus__in', 'Unly'); //false
+check(context, 'school_campus__in', 'unly'); //false 
+```
 
-### alias
-* greaterThan
+## GreaterThan
+
+### definition   
+	check if a value is greater than another 
+
+### alias  
+* greaterThan  
 * gt
 
-### supported type
-* number to number
-
 ### example
-* 42 greaterThan 24 === true
- 
- 
-## greaterThanEquals
 
-### alias
-* greaterThanEquals
+```js  
+const context = {  
+ "name":"Paul",
+ 'GPA':3,
+} 
+check(context, 'GPA__gt', 2) //true
+check(context, 'GPA__gt', '2') //true
+```
+
+## GreaterThanEquals
+
+## definition 
+	check if a value is greater or equal than another 
+
+
+### alias  
+* greaterThanEquals  
 * gte
 
-### supported type
-* number to number
-
 ### example
-* 42 greaterThanEquals 24
 
-## lessThan
+```js  
+const context = {  
+ "name":"Paul",
+ 'GPA':3,
+}  
+check(context, 'GPA__gte', 3) //true
+check(context, 'GPA__gte', '2') //true
+```
 
-### alias
-* lessThan
+## LessThan
+
+### definition   
+	check if a value is less than another 
+
+
+### alias  
+* lessThan  
 * lt
 
-### supported type
-* number to number
-
 ### example
-* 24 less 42 === true
 
-##lessThanEquals
+```js  
+const context = {  
+ "name":"Paul",
+ 'GPA':3,
+} 
+check(context, 'GPA__lt', 4) //true
+check(context, 'GPA__lt', '4') //true
+```
+## LessThanEquals
 
-### alias
-* lessThanEquals
+## definition 
+	check if a value is less or equal than another 
+
+### alias  
+* lessThanEquals  
 * lte
-
-### supported type
-* number to number
-
 ### example
-* 24 less 42 === true
 
-## startsWith
-
-### alias
-* startsWith
-* sw
-
-### supported type
-* string to string
-
-### example
-"string" startsWith "str" === true
-
-## endsWith
-
-### alias
-* endsWith
-* ew
-
-### supported type
-* string to string
-
-### example
-"string" endsWith "ing" === true
+```js  
+const context = {  
+ "name":"Paul",
+ 'GPA':3,
+}  
+check(context, 'GPA__lte', 3) //true
+check(context, 'GPA__lte', '4') //true
+```

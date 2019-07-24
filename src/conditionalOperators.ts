@@ -90,30 +90,6 @@ class None extends ConditionalOperator {
   humanlyReadableAs: string = 'none';
 }
 
-class StartsWith extends ConditionalOperator {
-  alias: string[] = ['startsWith', 'sw'];
-
-  call(value: string, contextValue: string, flags: string[]): boolean {
-    if (flags.includes('i'))
-      return startsWith(contextValue.toLowerCase(), value.toLowerCase());
-    return startsWith(contextValue, value);
-  }
-
-  humanlyReadableAs: string = 'starts with';
-}
-
-class EndsWith extends ConditionalOperator {
-  alias: string[] = ['endsWith', 'ew'];
-
-  call(value: string, contextValue: string, flags: string[]): boolean {
-    if (flags.includes('i'))
-      return endsWith(contextValue.toLowerCase(), value.toLowerCase());
-    return endsWith(contextValue, value);
-  }
-
-  humanlyReadableAs: string = 'ends with';
-}
-
 class Equals extends ConditionalOperator {
   alias: string[] = ['equals', 'eq'];
 
@@ -140,6 +116,30 @@ class NotEquals extends ConditionalOperator {
   humanlyReadableAs: string = 'not';
 }
 
+class StartsWith extends ConditionalOperator {
+  alias: string[] = ['startsWith', 'sw'];
+
+  call(value: string, contextValue: string, flags: string[]): boolean {
+    if (flags.includes('i'))
+      return startsWith(contextValue.toLowerCase(), value.toLowerCase());
+    return startsWith(contextValue, value);
+  }
+
+  humanlyReadableAs: string = 'starts with';
+}
+
+class EndsWith extends ConditionalOperator {
+  alias: string[] = ['endsWith', 'ew'];
+
+  call(value: string, contextValue: string, flags: string[]): boolean {
+    if (flags.includes('i'))
+      return endsWith(contextValue.toLowerCase(), value.toLowerCase());
+    return endsWith(contextValue, value);
+  }
+
+  humanlyReadableAs: string = 'ends with';
+}
+
 class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'includes', 'in'];
 
@@ -159,7 +159,7 @@ class Contains extends ConditionalOperator {
 }
 
 class NotContains extends ConditionalOperator {
-  alias: string[] = ['notContains', 'not_includes', 'nin'];
+  alias: string[] = ['notContains', 'notIncludes', 'nin'];
 
   call(value: any, contextValue: any, flags: string[]): boolean { let ret;
     ret = containHandleStringString(value, contextValue, flags);
