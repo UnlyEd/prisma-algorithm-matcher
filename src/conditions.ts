@@ -1,8 +1,9 @@
 import { check } from './check';
-import { logicalOperators } from './logicalOperators';
-import { CheckError } from './errors';
-import { IFilter, IReturnValuesType } from "./Interface";
-import { defaultOptions } from "./constants";
+import { logicalOperators } from './operators/logicalOperators';
+import { CheckError } from './utils/errors';
+import IFilter from './interfaces/IFilter'
+import IReturnValuesType from './interfaces/IReturnValuesType'
+import { defaultOptions } from "./utils/constants";
 
 /**
  * Resolve whether the given conditions are matched by the given context

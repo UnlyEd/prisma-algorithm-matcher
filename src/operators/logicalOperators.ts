@@ -1,4 +1,5 @@
-import { ILogicalOperator, ILogicalOperators } from "./Interface";
+import ILogicalOperator from '../interfaces/ILogicalOperator'
+import ILogicalOperators from '../interfaces/ILogicalOperators'
 
 export const and: ILogicalOperator = (values: boolean[]) => {
   return values.filter(returnValue => !returnValue).length === 0;

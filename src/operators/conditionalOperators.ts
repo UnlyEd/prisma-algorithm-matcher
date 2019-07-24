@@ -1,6 +1,6 @@
 import { and, not, or } from './logicalOperators';
 import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString, keys, get } from 'lodash'
-import { IConditionalOperator } from "./Interface";
+import IConditionalOperator from "../interfaces/IConditionalOperator"
 
 function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined {
   if (isString(x) && isString(y)) {

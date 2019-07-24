@@ -1,7 +1,7 @@
 import { get, map } from "lodash";
 import {
-  defaultOptions,
   DEFAULT_CONDITION,
+  defaultOptions,
   EVERY_STRING,
   FLAGS_INDICATOR,
   GET_SEPARATOR,
@@ -10,10 +10,11 @@ import {
   SEP_OPERATOR,
   SEP_PATH,
   SOME_STRING
-} from './constants';
-import { IConditionalOperator, IFilter } from "./Interface"
-import operators from "./conditionalOperators"
-import { CheckError, ValueNotFound } from './errors';
+} from './utils/constants';
+import IConditionalOperator from "./interfaces/IConditionalOperator"
+import IFilter from "./interfaces/IFilter"
+import operators from "./operators/conditionalOperators"
+import { CheckError, ValueNotFound } from './utils/errors';
 
 /**
  * Finds the target within the "conditions" object.
