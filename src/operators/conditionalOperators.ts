@@ -1,4 +1,5 @@
 import { and, not, or } from './logicalOperators';
+import { CheckError } from '../utils/errors'
 import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString, keys, get } from 'lodash'
 import IConditionalOperator from "../interfaces/IConditionalOperator"
 
@@ -119,10 +120,20 @@ class NotEquals extends ConditionalOperator {
 class StartsWith extends ConditionalOperator {
   alias: string[] = ['startsWith', 'sw'];
 
-  call(value: string, contextValue: string, flags: string[]): boolean {
-    if (flags.includes('i'))
-      return startsWith(contextValue.toLowerCase(), value.toLowerCase());
-    return startsWith(contextValue, value);
+  call(value: any, contextValue: any, flags: string[]): boolean {
+    if (isString(value) && isString(contextValue)) {
+      if (flags.includes('i'))
+        return startsWith(contextValue.toLowerCase(), value.toLowerCase());
+      return startsWith(contextValue, value);
+    }
+    throw new CheckError({
+      'status': false,
+      'conditionalOperator': "startsWith",
+      'value': value,
+      'contextValue': contextValue,
+      'flags': flags,
+      'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
+    })
   }
 
   humanlyReadableAs: string = 'starts with';
@@ -131,10 +142,20 @@ class StartsWith extends ConditionalOperator {
 class EndsWith extends ConditionalOperator {
   alias: string[] = ['endsWith', 'ew'];
 
-  call(value: string, contextValue: string, flags: string[]): boolean {
-    if (flags.includes('i'))
-      return endsWith(contextValue.toLowerCase(), value.toLowerCase());
-    return endsWith(contextValue, value);
+  call(value: any, contextValue: any, flags: string[]): boolean {
+    if (isString(value) && isString(contextValue)) {
+      if (flags.includes('i'))
+        return endsWith(contextValue.toLowerCase(), value.toLowerCase());
+      return endsWith(contextValue, value);
+    }
+    throw new CheckError({
+      'status': false,
+      'conditionalOperator': "startsWith",
+      'value': value,
+      'contextValue': contextValue,
+      'flags': flags,
+      'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
+    })
   }
 
   humanlyReadableAs: string = 'ends with';
@@ -152,6 +173,15 @@ class Contains extends ConditionalOperator {
       ret = containHandleStringInObject(value, contextValue, flags);
     if (ret === null)
       ret = containHandleObjectInObject(value, contextValue, flags);
+    if (ret === null)
+      throw new CheckError({
+        'status': false,
+        'conditionalOperator': "startsWith",
+        'value': value,
+        'contextValue': contextValue,
+        'flags': flags,
+        'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
+      });
     return ret;
   }
 
@@ -161,7 +191,8 @@ class Contains extends ConditionalOperator {
 class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'notIncludes', 'nin'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean { let ret;
+  call(value: any, contextValue: any, flags: string[]): boolean {
+    let ret;
     ret = containHandleStringString(value, contextValue, flags);
     if (ret === null)
       ret = containHandleArray(value, contextValue, flags);
@@ -169,6 +200,15 @@ class NotContains extends ConditionalOperator {
       ret = containHandleStringInObject(value, contextValue, flags);
     if (ret === null)
       ret = containHandleObjectInObject(value, contextValue, flags);
+    if (ret === null)
+      throw new CheckError({
+        'status': false,
+        'conditionalOperator': "startsWith",
+        'value': value,
+        'contextValue': contextValue,
+        'flags': flags,
+        'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
+      });
     return !ret;
   }
 

@@ -96,7 +96,7 @@ export const resolveComplexeOperator = (operators: string) => {
  * Handles every, some and none operators
  * Not used for "simple" operators, only for complex ones (for arrays/objects)
  *
- * @example TODO retravailler ça, matelos !
+ * @example
  *  Given a key as "school_name__every_equal"
  *  Given a value as "Skema"
  *  The algorithm will first find the "school.name" value, then it'll loop over every value and
