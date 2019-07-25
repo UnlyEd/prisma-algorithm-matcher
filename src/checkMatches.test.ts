@@ -1,4 +1,4 @@
-import checkContextMatchesConditions from './conditions';
+import checkContextMatchesConditions from './checkMatches';
 
 describe('src/conditions', () => {
   describe('checkContextMatchesConditions should', () => {

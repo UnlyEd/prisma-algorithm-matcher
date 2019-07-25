@@ -1,5 +1,5 @@
 import { and, not, or } from './logicalOperators';
-import { formatFilters } from '../conditions';
+import { formatFilter } from '../checkMatches';
 
 /*
   TODO
@@ -60,7 +60,7 @@ describe('src/operators', () => {
 
   describe('Filter feature', () => {
     test('Reformat simple nested filter', () => {
-      expect(formatFilters({
+      expect(formatFilter({
         'AND': [
           {
             'organisation_name': 'skema',

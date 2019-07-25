@@ -1,4 +1,4 @@
-import { check } from './check';
+import { check } from './utils/check';
 import { logicalOperators } from './operators/logicalOperators';
 import { CheckError } from './utils/errors';
 import IFilter from './interfaces/IFilter'
@@ -8,7 +8,7 @@ import { defaultOptions } from "./utils/constants";
 /**
  * Resolve whether the given conditions are matched by the given context
  *
- * @example filters
+ * @example filter
  *      {
           'AND': [
             {
@@ -33,17 +33,17 @@ import { defaultOptions } from "./utils/constants";
           },
         }
  *
- * @param filters
+ * @param filter
  * @param context
  * @param options
  * @returns {object}
  */
-const checkContextMatchesConditions = (filters: IFilter, context: object, options: object = defaultOptions) => {
+const checkContextMatchesConditions = (filter: IFilter, context: object, options: object = defaultOptions) => {
   let returnValues: IReturnValuesType = {};
   let ignoredConditionsCollection: object[] = [];
-  const refactoredFilters: IFilter = formatFilters(Object.assign({}, filters));
+  const refactoredFilter: IFilter = formatFilter(Object.assign({}, filter));
 
-  for (let [logicalOperator, conditions] of Object.entries(refactoredFilters)) {
+  for (let [logicalOperator, conditions] of Object.entries(refactoredFilter)) {
     if (logicalOperator in logicalOperators) {
       conditions.forEach((condition: object[]) => {
         const { status, ignoredConditions } = checkContextMatchesConditions(condition, context, options);
@@ -58,7 +58,7 @@ const checkContextMatchesConditions = (filters: IFilter, context: object, option
     } else {
       try {
         const checkResult = check(context, logicalOperator, conditions, options);
-        refactoredFilters[logicalOperator + '__result'] = checkResult;
+        refactoredFilter[logicalOperator + '__result'] = checkResult;
 
         if (checkResult['status'] === false) {
           return {
@@ -96,7 +96,7 @@ const checkContextMatchesConditions = (filters: IFilter, context: object, option
 /**
  * Reformat filter passed as argument to be compliant as the example
  * @example
- * @param filters
+ * @param filter
  *    {
         'AND': [
           {
@@ -111,26 +111,23 @@ const checkContextMatchesConditions = (filters: IFilter, context: object, option
        }
  * @returns {array}
  */
-export const formatFilters = (filters: IFilter) => {
-  for (let [logicalOperator, conditions] of Object.entries(filters)) {
+export const formatFilter = (filter: IFilter) => {
+  for (let [logicalOperator, conditions] of Object.entries(filter)) {
     if (logicalOperator in logicalOperators) {
       for (let i = 0; i < conditions.length; i++) {
-
         if (Object.keys(conditions[i]).length > 1) {
           const ruleObjectBackup = conditions[i];
-          filters[logicalOperator].splice(i - 1, 1);
-
+          filter[logicalOperator].splice(i - 1, 1);
           for (let [rule, expected] of Object.entries(ruleObjectBackup)) {
             let newObj: IFilter = {};
-
             newObj[rule] = expected;
-            filters[logicalOperator].push(newObj);
+            filter[logicalOperator].push(newObj);
           }
         }
       }
     }
   }
-  return filters;
+  return filter;
 };
 
 export default checkContextMatchesConditions;

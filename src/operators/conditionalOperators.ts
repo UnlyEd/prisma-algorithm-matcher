@@ -54,7 +54,7 @@ function containHandleObjectInObject(value: any, contextValue: any, flags: strin
 class ConditionalOperator implements IConditionalOperator {
   alias: string[] = [];
 
-  call(value: any, contextValue?: any, flags?: string[]): boolean {
+  callback(value: any, contextValue?: any, flags?: string[]): boolean {
     return false
   };
 
@@ -64,7 +64,7 @@ class ConditionalOperator implements IConditionalOperator {
 class Every extends ConditionalOperator {
   alias: string[] = ['every'];
 
-  call(value: any): boolean {
+  callback(value: any): boolean {
     return and(value);
   }
 
@@ -74,7 +74,7 @@ class Every extends ConditionalOperator {
 class Some extends ConditionalOperator {
   alias: string[] = ['some'];
 
-  call(value: any): boolean {
+  callback(value: any): boolean {
     return or(value);
   }
 
@@ -84,7 +84,7 @@ class Some extends ConditionalOperator {
 class None extends ConditionalOperator {
   alias: string[] = ['none'];
 
-  call(value: any): boolean {
+  callback(value: any): boolean {
     return not(value);
   }
 
@@ -94,7 +94,7 @@ class None extends ConditionalOperator {
 class Equals extends ConditionalOperator {
   alias: string[] = ['equals', 'eq'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
+  callback(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i'))
       return isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
     else
@@ -107,7 +107,7 @@ class Equals extends ConditionalOperator {
 class NotEquals extends ConditionalOperator {
   alias: string[] = ['ne', 'notEquals'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
+  callback(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i'))
       return !isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
     else
@@ -120,20 +120,20 @@ class NotEquals extends ConditionalOperator {
 class StartsWith extends ConditionalOperator {
   alias: string[] = ['startsWith', 'sw'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
+  callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
       if (flags.includes('i'))
         return startsWith(contextValue.toLowerCase(), value.toLowerCase());
       return startsWith(contextValue, value);
     }
-    throw new CheckError({
+    throw new Error(JSON.stringify({
       'status': false,
       'conditionalOperator': "startsWith",
       'value': value,
       'contextValue': contextValue,
       'flags': flags,
       'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
-    })
+    }));
   }
 
   humanlyReadableAs: string = 'starts with';
@@ -142,7 +142,7 @@ class StartsWith extends ConditionalOperator {
 class EndsWith extends ConditionalOperator {
   alias: string[] = ['endsWith', 'ew'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
+  callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
       if (flags.includes('i'))
         return endsWith(contextValue.toLowerCase(), value.toLowerCase());
@@ -164,7 +164,7 @@ class EndsWith extends ConditionalOperator {
 class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'includes', 'in'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
+  callback(value: any, contextValue: any, flags: string[]): boolean {
     let ret;
     ret = containHandleStringString(value, contextValue, flags);
     if (ret === null)
@@ -191,7 +191,7 @@ class Contains extends ConditionalOperator {
 class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'notIncludes', 'nin'];
 
-  call(value: any, contextValue: any, flags: string[]): boolean {
+  callback(value: any, contextValue: any, flags: string[]): boolean {
     let ret;
     ret = containHandleStringString(value, contextValue, flags);
     if (ret === null)
@@ -218,7 +218,7 @@ class NotContains extends ConditionalOperator {
 class GreaterThan extends ConditionalOperator {
   alias: string[] = ['greaterThan', 'gt'];
 
-  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+  callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue > value;
   }
 
@@ -228,7 +228,7 @@ class GreaterThan extends ConditionalOperator {
 class GreaterThanEquals extends ConditionalOperator {
   alias: string[] = ['greaterThanEquals', 'gte'];
 
-  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+  callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue >= value;
   }
 
@@ -238,7 +238,7 @@ class GreaterThanEquals extends ConditionalOperator {
 class LessThan extends ConditionalOperator {
   alias: string[] = ['lessThan', 'lt'];
 
-  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+  callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue < value;
   }
 
@@ -248,7 +248,7 @@ class LessThan extends ConditionalOperator {
 class LessThanEquals extends ConditionalOperator {
   alias: string[] = ['lessThanEquals', 'lte'];
 
-  call(value: string | number, contextValue: string | number, flags: string[]): boolean {
+  callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue <= value;
   }
 

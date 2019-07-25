@@ -1,4 +1,4 @@
-import { get, map } from "lodash";
+import { get, map, isUndefined } from "lodash";
 import {
   DEFAULT_CONDITION,
   defaultOptions,
@@ -10,11 +10,12 @@ import {
   SEP_OPERATOR,
   SEP_PATH,
   SOME_STRING
-} from './utils/constants';
-import IConditionalOperator from "./interfaces/IConditionalOperator"
-import IFilter from "./interfaces/IFilter"
-import operators from "./operators/conditionalOperators"
-import { CheckError, ValueNotFound } from './utils/errors';
+} from './constants';
+import IConditionalOperator from "../interfaces/IConditionalOperator"
+import IFilter from "../interfaces/IFilter"
+import operators from "../operators/conditionalOperators"
+import { CheckError, ValueNotFound } from './errors';
+import IMap from "../interfaces/IMap";
 
 /**
  * Finds the target within the "conditions" object.
@@ -57,15 +58,15 @@ export const resolveInformationInRuleKey = (rule: string) => {
   // this cut the string and keep the conditional operator but
   // if the rules is org_name then tmp is equal org_name
   // if rules is org_name__eq tmp is equal __eq
-  const tmp: string = rule.substring(rule.indexOf(SEP_OPERATOR), rule.length);
+  const tmpConditionalOperator: string = rule.substring(rule.indexOf(SEP_OPERATOR), rule.length);
   let conditionalOperator: string;
   let path: string;
 
-  if (tmp === rule) {
+  if (tmpConditionalOperator === rule) {
     conditionalOperator = DEFAULT_CONDITION;
     path = rule;
   } else {
-    conditionalOperator = tmp.substring(SEP_OPERATOR.length, tmp.length);
+    conditionalOperator = tmpConditionalOperator.substring(SEP_OPERATOR.length, tmpConditionalOperator.length);
     path = rule.substring(0, rule.indexOf(SEP_OPERATOR));
   }
   while (path.includes(SEP_PATH)) {
@@ -89,7 +90,7 @@ export const resolveComplexeOperator = (operators: string) => {
   }
   if (conditionalOperator[0] == '_')
     conditionalOperator = conditionalOperator.substr(1);
-  return { complexeConditionalOperator, conditionalOperator }
+  return { complexConditionalOperator: complexeConditionalOperator, conditionalOperator }
 };
 
 /**
@@ -112,40 +113,40 @@ export const resolveComplexeOperator = (operators: string) => {
  */
 
 export const handleComplexRequest = (operators: string, path: string, context: IFilter, givenValue: any) => {
-  const { complexeConditionalOperator, conditionalOperator } = resolveComplexeOperator(operators);
+  const { complexConditionalOperator, conditionalOperator } = resolveComplexeOperator(operators);
   let flags: string[] = [];
   let results: boolean[] = [];
   let matches: IFilter = [];
-  let tmpArray: string[] = path.split('.');
-  const fieldKeyToCheck: any = tmpArray.pop();
-  const resolvedContextFieldValue = get(context, tmpArray.join('.'));
-  const call = findInConditions(conditionalOperator, 'call', flags);
+  let splitPath: string[] = path.split(GET_SEPARATOR);
+  const fieldKeyToCheck: any = splitPath.pop();
+  const resolvedContextFieldValue = get(context, splitPath.join(GET_SEPARATOR));
+  const callback = findInConditions(conditionalOperator, 'callback', flags);
 
-  map(resolvedContextFieldValue, (valueInContext: any) => {
+  map(resolvedContextFieldValue, (valueInContext: IMap) => {
     flags = get(valueInContext, fieldKeyToCheck + FLAGS_INDICATOR, []);
-    if (typeof valueInContext === 'undefined' || typeof givenValue === 'undefined') {
+    if (isUndefined(valueInContext) || isUndefined(givenValue)) {
       return {
         'status': false,
-        'complex_operator': complexeConditionalOperator, // TODO currently undocumented
-        'operator': conditionalOperator,
+        'complex_operator': complexConditionalOperator,
+        'conditionalOperator': conditionalOperator,
         'given_value': givenValue,
         'valueInContext': valueInContext,
         'flags': flags,
-        'reason': `${status ? 'Success' : 'Fail'} because ${complexeConditionalOperator} of "${valueInContext}" is ${status ? '' : 'not'} ${findInConditions(conditionalOperator, 'humanlyReadableAs', flags)} "${givenValue}"`,
+        'reason': `Fail because ${complexConditionalOperator} of "${valueInContext}" is not ${findInConditions(conditionalOperator, 'humanlyReadableAs', flags)} "${givenValue}"`,
       };
     }
     matches.push({ 'value': givenValue, 'valueInContext': valueInContext[fieldKeyToCheck] });
-    results.push(call(givenValue, valueInContext[fieldKeyToCheck], flags));
+    results.push(callback(givenValue, valueInContext[fieldKeyToCheck], flags));
   });
 
-  const status = findInConditions(complexeConditionalOperator, 'call', flags)(results);
+  const isSuccess = findInConditions(complexConditionalOperator, 'callback', flags)(results);
   return {
-    'status': status,
-    'operator': complexeConditionalOperator,
+    'status': isSuccess,
+    'operator': complexConditionalOperator,
     'given_value': givenValue,
     'valueInContext': matches,
     'flags': flags,
-    'reason': `${status ? 'Success' : 'Fail'} because "${matches}" is ${status ? '' : 'not'} ${findInConditions(complexeConditionalOperator, 'humanlyReadableAs', flags)} "${givenValue}"`,
+    'reason': `${isSuccess ? 'Success' : 'Fail'} because "${matches}" is ${isSuccess ? '' : 'not'} ${findInConditions(complexConditionalOperator, 'humanlyReadableAs', flags)} "${givenValue}"`,
   };
 };
 
@@ -153,7 +154,7 @@ export const handleComplexRequest = (operators: string, path: string, context: I
  * It's the main function of the parsing first it calls the buildArg function which is explained above.
  * Second it check if the request needs a special treatment like if the operator is every, some or none
  * both of the special treatment and standard case work the same (the little differences are explained above).
- * The function got to find the valueInContext value in the  context. Next it retrieve the call of the operator.
+ * The function got to find the valueInContext value in the  context. Next it retrieve the callback of the operator.
  * Then the operator is called and the return object is created.
  *
  * @param context
@@ -161,7 +162,7 @@ export const handleComplexRequest = (operators: string, path: string, context: I
  * @param value
  * @param options
  */
-export const check = (context: object, rule: string, value: any, options: any = defaultOptions) => {
+export const check = (context: object, rule: string, value: any, options: IMap = defaultOptions) => {
   let { conditionalOperator, path } = resolveInformationInRuleKey(rule);
 
   if (conditionalOperator.includes(EVERY_STRING) || conditionalOperator.includes(SOME_STRING) || conditionalOperator.includes(NONE_STRING)) {
@@ -172,8 +173,8 @@ export const check = (context: object, rule: string, value: any, options: any = 
   const flags: string[] = get(context, path + FLAGS_INDICATOR, []);
 
   // If the given value is not defined (missing in context), it's treated as a particular case
-  if (typeof valueInContext === 'undefined') {
-    if (options.strictMatch) {
+  if (isUndefined(valueInContext)) {
+    if (options["strictMatch"]) {
       // XXX In "strict match" mode, missing values in context are treated as a match failure
       return {
         'status': false,
@@ -198,16 +199,16 @@ export const check = (context: object, rule: string, value: any, options: any = 
     }
   }
 
-  const call = findInConditions(conditionalOperator, 'call', flags);
-  const status = call(value, valueInContext, flags);
+  const callback = findInConditions(conditionalOperator, 'callback', flags);
+  const isSuccess = callback(value, valueInContext, flags);
 
   return {
-    'status': status,
+    'status': isSuccess,
     'rule':rule,
     'operator': conditionalOperator,
     'given_value': value,
     'valueInContext': valueInContext,
     'flags': flags,
-    'reason': `${status ? 'Success' : 'Fail'} because "${valueInContext}" is ${status ? '' : 'not'} ${findInConditions(conditionalOperator, 'humanlyReadableAs', flags)} "${value}"`,
+    'reason': `${isSuccess ? 'Success' : 'Fail'} because "${valueInContext}" is ${isSuccess ? '' : 'not'} ${findInConditions(conditionalOperator, 'humanlyReadableAs', flags)} "${value}"`,
   };
 };

@@ -56,7 +56,7 @@ describe('utils/check', () => {
         check(context, 'school_name__notAnOperator', 'EPITECH');
       } catch (e) {
         expect(e.data.status).toEqual(false);
-        expect(e.data.reason).toEqual(`Error: operator: "notAnOperator" does not exist or doesn't have "call" attribute`);
+        expect(e.data.reason).toEqual(`Error: operator: "notAnOperator" does not exist or doesn't have "callback" attribute`);
       }
     });
   });
