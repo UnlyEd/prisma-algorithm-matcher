@@ -1,4 +1,9 @@
-import { get, map, isUndefined } from "lodash";
+import { get, isUndefined, map } from 'lodash';
+
+import IConditionalOperator from '../interfaces/IConditionalOperator';
+import IFilter from '../interfaces/IFilter';
+import IMap from '../interfaces/IMap';
+import operators from '../operators/conditionalOperators';
 import {
   DEFAULT_CONDITION,
   defaultOptions,
@@ -11,11 +16,7 @@ import {
   SEP_PATH,
   SOME_STRING
 } from './constants';
-import IConditionalOperator from "../interfaces/IConditionalOperator"
-import IFilter from "../interfaces/IFilter"
-import operators from "../operators/conditionalOperators"
 import { CheckError, ValueNotFound } from './errors';
-import IMap from "../interfaces/IMap";
 
 /**
  * Finds the target within the "conditions" object.
@@ -31,13 +32,16 @@ import IMap from "../interfaces/IMap";
  */
 export const findInConditions = (conditionalOperator: string, target: string, flags: string[]) => {
   let returnValue: any = undefined;
+
   operators.forEach((operatorObject: IConditionalOperator) => {
     if (operatorObject.alias.includes(conditionalOperator)) {
       returnValue = get(operatorObject, target);
     }
   });
-  if (returnValue != undefined)
+
+  if (returnValue != undefined) {
     return returnValue;
+  }
 
   throw(new CheckError({
     'status': false,
@@ -69,6 +73,7 @@ export const resolveInformationInRuleKey = (rule: string) => {
     conditionalOperator = tmpConditionalOperator.substring(SEP_OPERATOR.length, tmpConditionalOperator.length);
     path = rule.substring(0, rule.indexOf(SEP_OPERATOR));
   }
+
   while (path.includes(SEP_PATH)) {
     path = path.replace(SEP_PATH, GET_SEPARATOR);
   }
@@ -82,15 +87,22 @@ export const resolveInformationInRuleKey = (rule: string) => {
  * @param operators
  */
 export const resolveComplexeOperator = (operators: string) => {
-  let complexeConditionalOperator: string = operators.substring(0, operators.indexOf(SEP_BETWEEN_OPERATOR));
+  let complexConditionalOperator: string = operators.substring(0, operators.indexOf(SEP_BETWEEN_OPERATOR));
   let conditionalOperator: string = operators.substring(operators.indexOf(SEP_BETWEEN_OPERATOR), operators.length);
-  if (!complexeConditionalOperator) {
-    complexeConditionalOperator = conditionalOperator;
+
+  if (!complexConditionalOperator) {
+    complexConditionalOperator = conditionalOperator;
     conditionalOperator = DEFAULT_CONDITION;
   }
-  if (conditionalOperator[0] == '_')
+
+  if (conditionalOperator[0] == '_') {
     conditionalOperator = conditionalOperator.substr(1);
-  return { complexConditionalOperator: complexeConditionalOperator, conditionalOperator }
+  }
+
+  return {
+    complexConditionalOperator,
+    conditionalOperator
+  };
 };
 
 /**
@@ -174,11 +186,11 @@ export const check = (context: object, rule: string, value: any, options: IMap =
 
   // If the given value is not defined (missing in context), it's treated as a particular case
   if (isUndefined(valueInContext)) {
-    if (options["strictMatch"]) {
+    if (options['strictMatch']) {
       // XXX In "strict match" mode, missing values in context are treated as a match failure
       return {
         'status': false,
-        'rule':rule,
+        'rule': rule,
         'conditionalOperator': conditionalOperator,
         'given_value': value,
         'valueInContext': valueInContext,
@@ -190,7 +202,7 @@ export const check = (context: object, rule: string, value: any, options: IMap =
       //  This exception must be handled by the caller, and should be used to resolve whether the check fails or not (based on a group of "checks", for instance)
       throw(new ValueNotFound({
         'status': null,
-        'rule':rule,
+        'rule': rule,
         'conditionalOperator': conditionalOperator,
         'path': path,
         'valueInContext': valueInContext,
@@ -204,7 +216,7 @@ export const check = (context: object, rule: string, value: any, options: IMap =
 
   return {
     'status': isSuccess,
-    'rule':rule,
+    'rule': rule,
     'operator': conditionalOperator,
     'given_value': value,
     'valueInContext': valueInContext,

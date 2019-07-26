@@ -1,23 +1,24 @@
 import contextMatcher from '../../lib/conditions';
 
-const isInNewYorkCondition = {
+const checkSchoolLocationCityThatSucceeds = {
   'school_location_city': "New York",
-  //same : 'school_location_city__eq': "New York",
+  // This is identical to:
+  // 'school_location_city__eq': "New York",
 };
 
-const isGoodSchoolCondition = {
-  'school_rate__gt': 4.5,
+const checkSchoolRateGreaterThanThresholdThatSucceeds = {
+  'school_rate__gt': 4.5, // true
 };
 
-const mediumCondition = {
-  'AND': [{ //true
-    'school_name': 'ISS', //true
-    'NOT': [{ //true
-      'school_rate__lte': 3, //false
+const checkMultipleRulesThatSucceeds = {
+  'AND': [{ // true
+    'school_name': 'ISS', // true
+    'NOT': [{ // true
+      'school_rate__lte': 3, // false
     }],
-    'OR': [{ //true
-      'school_location_city__in': ['New York', 'New Jersey', 'Mexico City'], //true
-      'rate__lte': 2.5 //false
+    'OR': [{ // true
+      'school_location_city__in': ['New York', 'New Jersey', 'Mexico City'], // true
+      'rate__lte': 2.5 // false
     }]
   }]
 }
@@ -34,15 +35,15 @@ const context = {
   },
 };
 
-const isInNewYork = contextMatcher(isInNewYorkCondition, context);
-//console.log(isInNewYork);
+const checkSchoolLocationCityThatSucceedsResult = contextMatcher(checkSchoolLocationCityThatSucceeds, context);
+console.log('checkSchoolLocationCityThatSucceedsResult\n', checkSchoolLocationCityThatSucceedsResult);
 // { status: true, ignoredConditions: null }
 
-const isGoodSchool = contextMatcher(isGoodSchoolCondition, context);
-//console.log(isGoodSchool);
+const checkSchoolRateGreaterThanThresholdThatSucceedsResult = contextMatcher(checkSchoolRateGreaterThanThresholdThatSucceeds, context);
+console.log('checkSchoolRateGreaterThanThresholdThatSucceedsResult\n', checkSchoolRateGreaterThanThresholdThatSucceedsResult);
 // { status: true, ignoredConditions: null }
 
-const mediumResults = contextMatcher(mediumCondition, context);
-console.log(mediumResults);
+const checkMultipleRulesThatSucceedsResult = contextMatcher(checkMultipleRulesThatSucceeds, context);
+console.log('checkMultipleRulesThatSucceedsResult\n', checkMultipleRulesThatSucceedsResult);
 // { status: true, ignoredConditions: null }
 
