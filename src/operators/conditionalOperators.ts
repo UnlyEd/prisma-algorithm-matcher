@@ -1,11 +1,12 @@
+import { endsWith, get, isArray, isEqual, isEqualWith, isObject, isString, keys, startsWith } from 'lodash';
+
+import IConditionalOperator from '../interfaces/IConditionalOperator';
+import { CheckError } from '../utils/errors';
 import { and, not, or } from './logicalOperators';
-import { CheckError } from '../utils/errors'
-import { isEqual, isEqualWith, startsWith, endsWith, isArray, isObject, isString, keys, get } from 'lodash'
-import IConditionalOperator from "../interfaces/IConditionalOperator"
 
 function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined {
   if (isString(x) && isString(y)) {
-    return x.toLowerCase() === y.toLowerCase()
+    return x.toLowerCase() === y.toLowerCase();
   }
 }
 
@@ -15,7 +16,7 @@ function containHandleStringString(value: any, contextValue: any, flags: string[
       return contextValue.toLowerCase().includes(value.toLowerCase());
     return contextValue.includes(value);
   }
-  return null
+  return null;
 }
 
 function containHandleArray(value: any, contextValue: any, flags: string[]) {
@@ -33,9 +34,9 @@ function containHandleArray(value: any, contextValue: any, flags: string[]) {
 
 function containHandleStringInObject(value: any, contextValue: any, flags: string[]) {
   if (isObject(value) && isString(contextValue)) {
-    return value.hasOwnProperty(contextValue)
+    return value.hasOwnProperty(contextValue);
   }
-  return null
+  return null;
 }
 
 function containHandleObjectInObject(value: any, contextValue: any, flags: string[]) {
@@ -48,51 +49,48 @@ function containHandleObjectInObject(value: any, contextValue: any, flags: strin
     });
     return ret;
   }
-  return null
+  return null;
 }
 
 class ConditionalOperator implements IConditionalOperator {
   alias: string[] = [];
+  humanlyReadableAs: string = '';
 
   callback(value: any, contextValue?: any, flags?: string[]): boolean {
-    return false
+    return false;
   };
-
-  humanlyReadableAs: string = '';
 }
 
 class Every extends ConditionalOperator {
   alias: string[] = ['every'];
+  humanlyReadableAs: string = 'every';
 
   callback(value: any): boolean {
     return and(value);
   }
-
-  humanlyReadableAs: string = 'every';
 }
 
 class Some extends ConditionalOperator {
   alias: string[] = ['some'];
+  humanlyReadableAs: string = 'some';
 
   callback(value: any): boolean {
     return or(value);
   }
-
-  humanlyReadableAs: string = 'some';
 }
 
 class None extends ConditionalOperator {
   alias: string[] = ['none'];
+  humanlyReadableAs: string = 'none';
 
   callback(value: any): boolean {
     return not(value);
   }
-
-  humanlyReadableAs: string = 'none';
 }
 
 class Equals extends ConditionalOperator {
   alias: string[] = ['equals', 'eq'];
+  humanlyReadableAs: string = 'equal';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i'))
@@ -100,12 +98,11 @@ class Equals extends ConditionalOperator {
     else
       return isEqual(value, contextValue);
   }
-
-  humanlyReadableAs: string = 'equal';
 }
 
 class NotEquals extends ConditionalOperator {
   alias: string[] = ['ne', 'notEquals'];
+  humanlyReadableAs: string = 'not';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i'))
@@ -113,12 +110,11 @@ class NotEquals extends ConditionalOperator {
     else
       return !isEqual(value, contextValue);
   }
-
-  humanlyReadableAs: string = 'not';
 }
 
 class StartsWith extends ConditionalOperator {
   alias: string[] = ['startsWith', 'sw'];
+  humanlyReadableAs: string = 'starts with';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
@@ -128,19 +124,18 @@ class StartsWith extends ConditionalOperator {
     }
     throw new Error(JSON.stringify({
       'status': false,
-      'conditionalOperator': "startsWith",
+      'conditionalOperator': 'startsWith',
       'value': value,
       'contextValue': contextValue,
       'flags': flags,
       'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
     }));
   }
-
-  humanlyReadableAs: string = 'starts with';
 }
 
 class EndsWith extends ConditionalOperator {
   alias: string[] = ['endsWith', 'ew'];
+  humanlyReadableAs: string = 'ends with';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
@@ -150,19 +145,18 @@ class EndsWith extends ConditionalOperator {
     }
     throw new CheckError({
       'status': false,
-      'conditionalOperator': "startsWith",
+      'conditionalOperator': 'startsWith',
       'value': value,
       'contextValue': contextValue,
       'flags': flags,
       'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
-    })
+    });
   }
-
-  humanlyReadableAs: string = 'ends with';
 }
 
 class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'includes', 'in'];
+  humanlyReadableAs: string = 'in';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     let ret;
@@ -176,7 +170,7 @@ class Contains extends ConditionalOperator {
     if (ret === null)
       throw new CheckError({
         'status': false,
-        'conditionalOperator': "startsWith",
+        'conditionalOperator': 'startsWith',
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
@@ -184,12 +178,11 @@ class Contains extends ConditionalOperator {
       });
     return ret;
   }
-
-  humanlyReadableAs: string = 'in';
 }
 
 class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'notIncludes', 'nin'];
+  humanlyReadableAs: string = 'not in';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     let ret;
@@ -203,7 +196,7 @@ class NotContains extends ConditionalOperator {
     if (ret === null)
       throw new CheckError({
         'status': false,
-        'conditionalOperator': "startsWith",
+        'conditionalOperator': 'startsWith',
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
@@ -211,48 +204,42 @@ class NotContains extends ConditionalOperator {
       });
     return !ret;
   }
-
-  humanlyReadableAs: string = 'not in';
 }
 
 class GreaterThan extends ConditionalOperator {
   alias: string[] = ['greaterThan', 'gt'];
+  humanlyReadableAs: string = 'greaterThan';
 
   callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue > value;
   }
-
-  humanlyReadableAs: string = 'greaterThan';
 }
 
 class GreaterThanEquals extends ConditionalOperator {
   alias: string[] = ['greaterThanEquals', 'gte'];
+  humanlyReadableAs: string = 'greater or equal than';
 
   callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue >= value;
   }
-
-  humanlyReadableAs: string = 'greater or equal than';
 }
 
 class LessThan extends ConditionalOperator {
   alias: string[] = ['lessThan', 'lt'];
+  humanlyReadableAs: string = 'less than';
 
   callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue < value;
   }
-
-  humanlyReadableAs: string = 'less than';
 }
 
 class LessThanEquals extends ConditionalOperator {
   alias: string[] = ['lessThanEquals', 'lte'];
+  humanlyReadableAs: string = 'lesser or equal to';
 
   callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue <= value;
   }
-
-  humanlyReadableAs: string = 'lesser or equal to';
 }
 
 export default [
@@ -262,4 +249,4 @@ export default [
   new Contains(), new NotContains(),
   new GreaterThan(), new GreaterThanEquals(),
   new LessThan(), new LessThanEquals()
-]
+];

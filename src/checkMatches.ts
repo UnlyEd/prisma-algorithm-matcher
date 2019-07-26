@@ -1,9 +1,9 @@
+import IFilter from './interfaces/IFilter';
+import IReturnValuesType from './interfaces/IReturnValuesType';
+import { logicalOperators, LOP_AND } from './operators/logicalOperators';
 import { check } from './utils/check';
-import { logicalOperators } from './operators/logicalOperators';
+import { defaultOptions } from './utils/constants';
 import { CheckError } from './utils/errors';
-import IFilter from './interfaces/IFilter'
-import IReturnValuesType from './interfaces/IReturnValuesType'
-import { defaultOptions } from "./utils/constants";
 
 /**
  * Resolve whether the given conditions are matched by the given context
@@ -85,7 +85,7 @@ const checkContextMatchesConditions = (filter: IFilter, context: object, options
   for (let [logicalOperator, isValidConditions] of Object.entries(returnValues)) {
     operatorsValues.push(logicalOperators[logicalOperator](isValidConditions));
   }
-  const isValid = logicalOperators["AND"](operatorsValues);
+  const isValid = logicalOperators[LOP_AND](operatorsValues);
   return {
     'status': isValid,
     'ignoredConditions': ignoredConditionsCollection.length > 0 ? ignoredConditionsCollection : null,

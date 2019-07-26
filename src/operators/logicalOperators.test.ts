@@ -1,5 +1,5 @@
-import { and, not, or } from './logicalOperators';
 import { formatFilter } from '../checkMatches';
+import { and, not, or } from './logicalOperators';
 
 /*
   TODO

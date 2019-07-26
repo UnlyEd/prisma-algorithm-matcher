@@ -1,4 +1,9 @@
-import { get, map, isUndefined } from "lodash";
+import { get, isUndefined, map } from 'lodash';
+
+import IConditionalOperator from '../interfaces/IConditionalOperator';
+import IFilter from '../interfaces/IFilter';
+import IMap from '../interfaces/IMap';
+import operators from '../operators/conditionalOperators';
 import {
   DEFAULT_CONDITION,
   defaultOptions,
@@ -11,11 +16,7 @@ import {
   SEP_PATH,
   SOME_STRING
 } from './constants';
-import IConditionalOperator from "../interfaces/IConditionalOperator"
-import IFilter from "../interfaces/IFilter"
-import operators from "../operators/conditionalOperators"
 import { CheckError, ValueNotFound } from './errors';
-import IMap from "../interfaces/IMap";
 
 /**
  * Finds the target within the "conditions" object.
@@ -90,7 +91,7 @@ export const resolveComplexeOperator = (operators: string) => {
   }
   if (conditionalOperator[0] == '_')
     conditionalOperator = conditionalOperator.substr(1);
-  return { complexConditionalOperator: complexeConditionalOperator, conditionalOperator }
+  return { complexConditionalOperator: complexeConditionalOperator, conditionalOperator };
 };
 
 /**
@@ -174,11 +175,11 @@ export const check = (context: object, rule: string, value: any, options: IMap =
 
   // If the given value is not defined (missing in context), it's treated as a particular case
   if (isUndefined(valueInContext)) {
-    if (options["strictMatch"]) {
+    if (options['strictMatch']) {
       // XXX In "strict match" mode, missing values in context are treated as a match failure
       return {
         'status': false,
-        'rule':rule,
+        'rule': rule,
         'conditionalOperator': conditionalOperator,
         'given_value': value,
         'valueInContext': valueInContext,
@@ -190,7 +191,7 @@ export const check = (context: object, rule: string, value: any, options: IMap =
       //  This exception must be handled by the caller, and should be used to resolve whether the check fails or not (based on a group of "checks", for instance)
       throw(new ValueNotFound({
         'status': null,
-        'rule':rule,
+        'rule': rule,
         'conditionalOperator': conditionalOperator,
         'path': path,
         'valueInContext': valueInContext,
@@ -204,7 +205,7 @@ export const check = (context: object, rule: string, value: any, options: IMap =
 
   return {
     'status': isSuccess,
-    'rule':rule,
+    'rule': rule,
     'operator': conditionalOperator,
     'given_value': value,
     'valueInContext': valueInContext,
