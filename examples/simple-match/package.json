@@ -10,7 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@unly/conditions-matcher": "1.0.9",
+    "@unly/conditions-matcher": "latest",
     "esm": "3.2.25",
     "nodemon": "1.19.1"
   }

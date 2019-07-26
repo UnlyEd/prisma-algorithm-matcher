@@ -34,10 +34,10 @@ const context = {
  'Postal_code':69000,
  }  
 };
-check(context, 'school_name__eq', 'Unly'); //true  
-check(context, 'school_name__equals', 'unly'); //false  
-check(context, 'school_city__equals', 'LYON'); //true  
-check(context, 'school', {'name':'Unly','Postal_code':69000,}); //true  
+check(context, 'school_name__eq', 'Unly'); // true  
+check(context, 'school_name__equals', 'unly'); // false  
+check(context, 'school_city__equals', 'LYON'); // true  
+check(context, 'school', {'name':'Unly','Postal_code':69000,}); // true  
 ```  
   
 ## Not Equal  
@@ -59,10 +59,10 @@ const context = {
  'Postal_code':69000,
  }  
 };
-check(context, 'school_name__ne', 'Unly'); //false  
-check(context, 'school_name__notEquals', 'unly'); //true  
-check(context, 'school_city__notEquals', 'LYON'); //false  
-check(context, 'school__ne', {'name':'Unly','Postal_code':69000,}); //false  
+check(context, 'school_name__ne', 'Unly'); // false  
+check(context, 'school_name__notEquals', 'unly'); // true  
+check(context, 'school_city__notEquals', 'LYON'); // false  
+check(context, 'school__ne', {'name':'Unly','Postal_code':69000,}); // false  
 ```  
   
 ## StartsWith  
@@ -84,9 +84,9 @@ const context = {
  'Postal_code':69000,  
  }  
 };
-check(context, 'school_name__sw', 'Un'); //true  
-check(context, 'school_name__sw', 'un'); //false  
-check(context, 'school_city__sw', 'LY'); //true  
+check(context, 'school_name__sw', 'Un'); // true  
+check(context, 'school_name__sw', 'un'); // false  
+check(context, 'school_city__sw', 'LY'); // true  
 ```  
   
 ## EndWith  
@@ -110,9 +110,9 @@ const context = {
  }  
 };
   
-check(context, 'school_name__sw', 'ly'); //true  
-check(context, 'school_name__sw', 'LY'); //false  
-check(context, 'school_city__sw', 'ON'); //true  
+check(context, 'school_name__sw', 'ly'); // true  
+check(context, 'school_name__sw', 'LY'); // false  
+check(context, 'school_city__sw', 'ON'); // true  
 ```  
   
 ## Contains  
@@ -137,11 +137,11 @@ const context = {
  "campus":[42, "Unly"],
  "campus__flags":['i']  
 };
-check(context, 'school_name__in', 'aul'); //true  
-check(context, 'school_location__in', {'city':"lyon"}); //true  
-check(context, 'school_campus__in', 42); //true  
-check(context, 'school_campus__in', 'Unly'); //true  
-check(context, 'school_campus__in', 'unly'); //true  
+check(context, 'school_name__in', 'aul'); // true  
+check(context, 'school_location__in', {'city':"lyon"}); // true  
+check(context, 'school_campus__in', 42); // true  
+check(context, 'school_campus__in', 'Unly'); // true  
+check(context, 'school_campus__in', 'unly'); // true  
 ```
 
 ## Contains  
@@ -166,11 +166,11 @@ const context = {
  "campus":[42, "Unly"],
  "campus__flags":['i']  
 };
-check(context, 'school_name__in', 'aul'); //flase  
-check(context, 'school_location__in', {'city':"lyon"}); //false  
-check(context, 'school_campus__in', 42); //false
-check(context, 'school_campus__in', 'Unly'); //false
-check(context, 'school_campus__in', 'unly'); //false 
+check(context, 'school_name__in', 'aul'); // flase  
+check(context, 'school_location__in', {'city':"lyon"}); // false  
+check(context, 'school_campus__in', 42); // false
+check(context, 'school_campus__in', 'Unly'); // false
+check(context, 'school_campus__in', 'unly'); // false 
 ```
 
 ## GreaterThan
@@ -189,8 +189,8 @@ const context = {
  "name":"Paul",
  'GPA':3,
 };
-check(context, 'GPA__gt', 2); //true
-check(context, 'GPA__gt', '2'); //true
+check(context, 'GPA__gt', 2); // true
+check(context, 'GPA__gt', '2'); // true
 ```
 
 ## GreaterThanEquals
@@ -210,8 +210,8 @@ const context = {
  "name":"Paul",
  'GPA':3,
 };
-check(context, 'GPA__gte', 3); //true
-check(context, 'GPA__gte', '2'); //true
+check(context, 'GPA__gte', 3); // true
+check(context, 'GPA__gte', '2'); // true
 ```
 
 ## LessThan
@@ -231,8 +231,8 @@ const context = {
  "name":"Paul",
  'GPA':3,
 };
-check(context, 'GPA__lt', 4); //true
-check(context, 'GPA__lt', '4'); //true
+check(context, 'GPA__lt', 4); // true
+check(context, 'GPA__lt', '4'); // true
 ```
 ## LessThanEquals
 
@@ -249,8 +249,8 @@ const context = {
   "name":"Paul",
  'GPA':3,
 };  
-check(context, 'GPA__lte', 3); //true
-check(context, 'GPA__lte', '4'); //true
+check(context, 'GPA__lte', 3); // true
+check(context, 'GPA__lte', '4'); // true
 ```
 
 ## Every
@@ -271,8 +271,8 @@ const context = {
     {'name':'Robert', 'GPA':2, "promotion":2021}
   ]
 }
-check(context, 'students_promotion__every_eq', 2021); //true
-check(context, 'students_promotion__every_gte', 1); //true
+check(context, 'students_promotion__every_eq', 2021); // true
+check(context, 'students_promotion__every_gte', 1); // true
 ```
 
 
@@ -294,8 +294,8 @@ const context = {
     {'name':'Robert', 'name__flags': ['i'], 'GPA':2, "promotion":2021}
   ]
 }
-check(context, 'students_name__some_eq', 'robert'); //true
-check(context, 'students_promotion__some_eq', 2); //true
+check(context, 'students_name__some_eq', 'robert'); // true
+check(context, 'students_promotion__some_eq', 2); // true
 ```
 
 ## None
@@ -316,6 +316,6 @@ const context = {
     {'name':'Robert', 'name__flags': ['i'], 'GPA':2, "promotion":2021}
   ]
 }
-check(context, 'students_GPA__none_qte', '4'); //true
-check(context, 'students_name__some_eq', 'Louis'); //true
+check(context, 'students_GPA__none_qte', '4'); // true
+check(context, 'students_name__some_eq', 'Louis'); // true
 ```
