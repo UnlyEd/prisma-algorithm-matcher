@@ -1,18 +1,19 @@
-import ConditionalOperator from "./ConditionalOperator";
-import { isString, startsWith } from "lodash";
+import ConditionalOperator from './ConditionalOperator';
+import { isString, startsWith } from 'lodash';
 
 class StartsWith extends ConditionalOperator {
   alias: string[] = ['startsWith', 'sw'];
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
-      if (flags.includes('i'))
+      if (flags.includes('i')) {
         return startsWith(contextValue.toLowerCase(), value.toLowerCase());
+      }
       return startsWith(contextValue, value);
     }
     throw new Error(JSON.stringify({
       'status': false,
-      'conditionalOperator': "startsWith",
+      'conditionalOperator': 'startsWith',
       'value': value,
       'contextValue': contextValue,
       'flags': flags,

@@ -1,21 +1,22 @@
-import { get, isArray, isEqual, isObject, isString, keys } from 'lodash'
+import { get, isArray, isEqual, isObject, isString, keys } from 'lodash';
 
 export function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined {
   if (isString(x) && isString(y)) {
-    return x.toLowerCase() === y.toLowerCase()
+    return x.toLowerCase() === y.toLowerCase();
   }
 }
 
-export function containHandleStringString(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleStringInStringInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isString(value) && isString(contextValue)) {
-    if (flags.includes('i'))
+    if (flags.includes('i')) {
       return contextValue.toLowerCase().includes(value.toLowerCase());
+    }
     return contextValue.includes(value);
   }
-  return null
+  return null;
 }
 
-export function containHandleArray(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleArrayInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isArray(value)) {
     if (flags.includes('i')) {
       value = value.map((el) => {
@@ -28,14 +29,14 @@ export function containHandleArray(value: any, contextValue: any, flags: string[
   return null;
 }
 
-export function containHandleStringInObject(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleStringInObjectInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isObject(value) && isString(contextValue)) {
-    return value.hasOwnProperty(contextValue)
+    return value.hasOwnProperty(contextValue);
   }
-  return null
+  return null;
 }
 
-export function containHandleObjectInObject(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleObjectInObjectInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isObject(value) && isObject(contextValue)) {
     let ret: boolean = true;
     keys(value).forEach((el) => {
@@ -45,5 +46,5 @@ export function containHandleObjectInObject(value: any, contextValue: any, flags
     });
     return ret;
   }
-  return null
+  return null;
 }

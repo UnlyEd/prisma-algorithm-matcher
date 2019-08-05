@@ -1,14 +1,15 @@
 import { CheckError } from "../utils/errors";
 import ConditionalOperator from "./ConditionalOperator";
-import {isString, endsWith} from 'lodash'
+import { isString, endsWith } from 'lodash'
 
 class EndsWith extends ConditionalOperator {
   alias: string[] = ['endsWith', 'ew'];
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
-      if (flags.includes('i'))
+      if (flags.includes('i')) {
         return endsWith(contextValue.toLowerCase(), value.toLowerCase());
+      }
       return endsWith(contextValue, value);
     }
     throw new CheckError({
