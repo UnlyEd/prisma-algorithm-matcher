@@ -41,9 +41,9 @@ import { CheckError } from './utils/errors';
 const checkContextMatchesConditions = (filter: IFilter, context: object, options: object = defaultOptions) => {
   let returnValues: IReturnValuesType = {};
   let ignoredConditionsCollection: object[] = [];
-  const refactoredFilter: IFilter = formatFilter(Object.assign({}, filter));
+  const formattedFilter: IFilter = formatFilter(Object.assign({}, filter));
 
-  for (let [logicalOperator, conditions] of Object.entries(refactoredFilter)) {
+  for (let [logicalOperator, conditions] of Object.entries(formattedFilter)) {
     if (logicalOperator in logicalOperators) {
       conditions.forEach((condition: object[]) => {
         const { status, ignoredConditions } = checkContextMatchesConditions(condition, context, options);
@@ -58,7 +58,7 @@ const checkContextMatchesConditions = (filter: IFilter, context: object, options
     } else {
       try {
         const checkResult = check(context, logicalOperator, conditions, options);
-        refactoredFilter[logicalOperator + '__result'] = checkResult;
+        formattedFilter[logicalOperator + '__result'] = checkResult;
 
         if (checkResult['status'] === false) {
           return {

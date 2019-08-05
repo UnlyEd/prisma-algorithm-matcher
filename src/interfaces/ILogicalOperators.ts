@@ -1,5 +1,5 @@
 /**
- * Interface which contain a pair of a string and function to callback
+ * Interface that will contain the call back of the logical Operator like AND, OR, NOT
  */
 import ILogicalOperator from './ILogicalOperator';
 
