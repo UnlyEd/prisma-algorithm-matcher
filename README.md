@@ -36,6 +36,37 @@ yarn add @unly/conditions-matcher
 ```
 
 ### Usage
+
+#### Function prototype
+**boolean** = contextMatcher(**context**, **filter**);
+
+**context**: This is an object containing the data you want to filter. Example :
+```js
+{
+  'schools': [
+    {
+      name: 'first-school',
+      gpa: 2.5
+  }, {
+      name: 'second-school',
+      gpa: 3.4
+  }]
+}
+```
+
+**filter**: It is an object containing all the conditions to be applied to the filter. For a list of conditions and operators, go [here](./README-CONDITIONS.md). Example :
+```js
+{
+  AND:[
+      { "schools_gpa__some_lessThan": 3 },
+      { "school_name__every_endWith": "schools" }
+    ]
+}
+
+```
+This will return **true**
+
+#### Import in you project
 ES5
 ```js
 const contextMatcher = require("@unly/conditions-matcher");
@@ -47,7 +78,6 @@ import contextMatcher from "@unly/conditions-matcher";
 ```
 
 See the [examples](./examples) for more details.
-Then please check the conditions documentation [here](./README-CONDITIONS.md)
 
 ---
 
