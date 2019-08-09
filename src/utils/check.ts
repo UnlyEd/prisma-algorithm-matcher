@@ -82,11 +82,11 @@ export const resolveInformationInRuleKey = (rule: string) => {
 };
 
 /**
- * this function resolve the complexe Conditional Operator aka every, some, none
+ * this function resolve the complex Conditional Operator aka every, some, none
  * and the conditional Operator aka eq, gt, etc...
  * @param operators
  */
-export const resolveComplexeOperator = (operators: string) => {
+export const resolveComplexOperator = (operators: string) => {
   let complexConditionalOperator: string = operators.substring(0, operators.indexOf(SEP_BETWEEN_OPERATOR));
   let conditionalOperator: string = operators.substring(operators.indexOf(SEP_BETWEEN_OPERATOR), operators.length);
 
@@ -125,7 +125,7 @@ export const resolveComplexeOperator = (operators: string) => {
  */
 
 export const handleComplexRequest = (operators: string, path: string, context: IFilter, givenValue: any) => {
-  const { complexConditionalOperator, conditionalOperator } = resolveComplexeOperator(operators);
+  const { complexConditionalOperator, conditionalOperator } = resolveComplexOperator(operators);
   let flags: string[] = [];
   let results: boolean[] = [];
   let matches: IFilter = [];
