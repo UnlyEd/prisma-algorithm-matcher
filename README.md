@@ -84,10 +84,10 @@ ES6
 import contextMatcher from "@unly/conditions-matcher";
 ```
 
----
+See the [examples](./examples) for more details.
+Then please check the conditions documentation [here](./README-CONDITIONAL-OPERATORS.md)
 
-## Examples
-You can find the list of available [operators](./README-CONDITIONS.md) and some [examples](./examples).
+---
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 {
   "name": "@unly/conditions-matcher",
-  "version": "1.0.10-beta.1",
+  "version": "2.0.0-beta.0",
   "description": "Open-source library using Node v8.10",
   "scripts": {
     "start": "cross-env-shell 'concurrently -p '{name}' -n 'lint,build,test' -c 'gray.bgWhite,yellow.bgBlue,green.bgWhite' \"yarn lint\" \"yarn build\" \"yarn test\"'",
@@ -11,7 +11,7 @@
     "lint:once": "eslint src/ --fix",
     "preversion": "yarn lint:once && yarn test:once && yarn doc:toc",
     "postversion": "git push && git push --tags",
-    "prepublishOnly": "yarn clean && yarn build:once && yarn publish:preview && cli-confirm \"Do you really want to release a new version? Please check the files that will be publicly released first.\"",
+    "prepublishOnly": "yarn clean && yarn build:once && yarn publish:preview && cli-confirm \"Do you really want to release a new version? Please check the files that will be publicly released first. (y/n)\"",
     "publish:preview": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
     "release": "yarn bump --prompt --commit --tag --push",
     "releaseAndPublish": "yarn release && npm publish",
@@ -20,7 +20,7 @@
     "test:once": "NODE_ENV=test jest",
     "test:coverage": "NODE_ENV=test jest --coverage"
   },
-  "main": "lib/conditions.js",
+  "main": "lib/checkMatches.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/UnlyEd/conditions-matcher.git"
