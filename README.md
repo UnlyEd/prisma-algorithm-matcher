@@ -38,8 +38,9 @@ yarn add @unly/conditions-matcher
 ### Usage
 
 #### Function prototype
-**boolean** = contextMatcher(**context**, **filter**);
-
+```js
+boolean = contextMatcher(context, filter, options: optionnal);
+```
 **context**: This is an object containing the data you want to filter. Example :
 ```js
 {
@@ -64,6 +65,14 @@ yarn add @unly/conditions-matcher
 }
 
 ```
+
+**options**: This is an object containing the default options. For the moment it contains only:
+```js
+{
+  'strictMatch': false // Set here case sensitivity
+}
+```
+
 This will return **true**
 
 #### Import in you project
