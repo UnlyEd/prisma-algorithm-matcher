@@ -5,7 +5,8 @@ class ConditionalOperator implements IConditionalOperator {
   humanlyReadableAs: string = '';
 
   /**
-   * this function is a callback use by all operators.
+   * This function is a callback used by all conditional operators.
+   *
    * @param value
    * @param contextValue
    * @param flags

@@ -3,7 +3,7 @@ import { get, isUndefined, map } from 'lodash';
 import IConditionalOperator from '../interfaces/IConditionalOperator';
 import IFilter from '../interfaces/IFilter';
 import IMap from '../interfaces/IMap';
-import operators from '../operators/conditionalOperators';
+import conditionalOperators from '../conditionalOperators/index';
 import {
   DEFAULT_CONDITION,
   defaultOptions,
@@ -33,7 +33,7 @@ import { CheckError, ValueNotFound } from './errors';
 export const findInConditions = (conditionalOperator: string, target: string, flags: string[]) => {
   let returnValue: any = undefined;
 
-  operators.forEach((operatorObject: IConditionalOperator) => {
+  conditionalOperators.forEach((operatorObject: IConditionalOperator) => {
     if (operatorObject.alias.includes(conditionalOperator)) {
       returnValue = get(operatorObject, target);
     }
