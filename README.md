@@ -62,15 +62,14 @@ boolean = contextMatcher(context, filter, options: optionnal);
       { "foo__eq": "bar" }
     ]
 }
-
 ```
 
 **options**: This is an **optionnal** object containing the default options. For the moment it contains only:
-```js
-{
-  'strictMatch': false // Set here case sensitivity
-}
-```
+
+| Option name  | Default value | Description |
+|--------------|---------------|--------------|
+|  strictMatch | false | This represents the behavior in case of non-existent context corresponds to the filter. Set to **true** if you want to return **false** in case of a value in the filter doesn't exist. |
+
 
 This will return **true**
 
