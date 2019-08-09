@@ -45,14 +45,11 @@ boolean = contextMatcher(context, filter, options: optionnal);
 **context**: This is an object containing the data you want to filter. Example :
 ```js
 {
-  'schools': [
-    {
+  'school': {
       name: 'first-school',
       gpa: 2.5
-  }, {
-      name: 'second-school',
-      gpa: 3.4
-  }]
+  }
+  'foo': 'bar'
 }
 ```
 
@@ -60,8 +57,9 @@ boolean = contextMatcher(context, filter, options: optionnal);
 ```js
 {
   AND:[
-      { "schools_gpa__some_lessThan": 3 },
-      { "school_name__every_endWith": "schools" }
+      { "school_gpa__lessThan": 3 },
+      { "school_name__endsWith": "school" },
+      { "foo__eq": "bar" }
     ]
 }
 
