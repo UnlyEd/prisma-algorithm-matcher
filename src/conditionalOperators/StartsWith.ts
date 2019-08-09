@@ -1,8 +1,9 @@
-import ConditionalOperator from './ConditionalOperator';
 import { isString, startsWith } from 'lodash';
+import ConditionalOperator from './ConditionalOperator';
 
 class StartsWith extends ConditionalOperator {
   alias: string[] = ['startsWith', 'sw'];
+  humanlyReadableAs: string = 'starts with';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
@@ -20,8 +21,6 @@ class StartsWith extends ConditionalOperator {
       'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
     }));
   }
-
-  humanlyReadableAs: string = 'starts with';
 }
 
 export default StartsWith;

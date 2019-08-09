@@ -1,9 +1,10 @@
-import ConditionalOperator from "./ConditionalOperator";
-import { checkStringEqualNoMatchCase } from "./utils";
-import {isEqualWith, isEqual} from 'lodash'
+import { isEqual, isEqualWith } from 'lodash';
+import ConditionalOperator from './ConditionalOperator';
+import { checkStringEqualNoMatchCase } from './utils';
 
 class NotEquals extends ConditionalOperator {
   alias: string[] = ['ne', 'notEquals'];
+  humanlyReadableAs: string = 'not';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i'))
@@ -11,9 +12,7 @@ class NotEquals extends ConditionalOperator {
     else
       return !isEqual(value, contextValue);
   }
-
-  humanlyReadableAs: string = 'not';
 }
 
-export default NotEquals
+export default NotEquals;
 

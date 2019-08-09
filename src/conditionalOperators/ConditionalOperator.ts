@@ -1,7 +1,8 @@
-import IConditionalOperator from "../interfaces/IConditionalOperator";
+import IConditionalOperator from '../interfaces/IConditionalOperator';
 
 class ConditionalOperator implements IConditionalOperator {
   alias: string[] = [];
+  humanlyReadableAs: string = '';
 
   /**
    * this function is a callback use by all operators.
@@ -10,10 +11,8 @@ class ConditionalOperator implements IConditionalOperator {
    * @param flags
    */
   callback(value: any, contextValue?: any, flags?: string[]): boolean {
-    return false
+    return false;
   };
-
-  humanlyReadableAs: string = '';
 }
 
-export default ConditionalOperator
+export default ConditionalOperator;

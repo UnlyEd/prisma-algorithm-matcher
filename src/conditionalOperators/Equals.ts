@@ -1,9 +1,10 @@
-import ConditionalOperator from './ConditionalOperator';
 import { isEqual, isEqualWith } from 'lodash';
+import ConditionalOperator from './ConditionalOperator';
 import { checkStringEqualNoMatchCase } from './utils';
 
 class Equals extends ConditionalOperator {
   alias: string[] = ['equals', 'eq'];
+  humanlyReadableAs: string = 'equal';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (flags.includes('i')) {
@@ -12,8 +13,6 @@ class Equals extends ConditionalOperator {
       return isEqual(value, contextValue);
     }
   }
-
-  humanlyReadableAs: string = 'equal';
 }
 
 export default Equals;

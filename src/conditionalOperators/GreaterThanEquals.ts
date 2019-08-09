@@ -1,13 +1,12 @@
-import ConditionalOperator from "./ConditionalOperator";
+import ConditionalOperator from './ConditionalOperator';
 
 class GreaterThanEquals extends ConditionalOperator {
   alias: string[] = ['greaterThanEquals', 'gte'];
+  humanlyReadableAs: string = 'greater or equal than';
 
   callback(value: string | number, contextValue: string | number, flags: string[]): boolean {
     return contextValue >= value;
   }
-
-  humanlyReadableAs: string = 'greater or equal than';
 }
 
-export default GreaterThanEquals
+export default GreaterThanEquals;

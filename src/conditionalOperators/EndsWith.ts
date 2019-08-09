@@ -1,9 +1,10 @@
-import { CheckError } from "../utils/errors";
-import ConditionalOperator from "./ConditionalOperator";
-import { isString, endsWith } from 'lodash'
+import { endsWith, isString } from 'lodash';
+import { CheckError } from '../utils/errors';
+import ConditionalOperator from './ConditionalOperator';
 
 class EndsWith extends ConditionalOperator {
   alias: string[] = ['endsWith', 'ew'];
+  humanlyReadableAs: string = 'ends with';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     if (isString(value) && isString(contextValue)) {
@@ -14,15 +15,13 @@ class EndsWith extends ConditionalOperator {
     }
     throw new CheckError({
       'status': false,
-      'conditionalOperator': "startsWith",
+      'conditionalOperator': 'startsWith',
       'value': value,
       'contextValue': contextValue,
       'flags': flags,
       'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
-    })
+    });
   }
-
-  humanlyReadableAs: string = 'ends with';
 }
 
 export default EndsWith;

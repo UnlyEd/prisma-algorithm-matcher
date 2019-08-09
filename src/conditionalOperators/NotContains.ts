@@ -1,9 +1,10 @@
-import { CheckError } from "../utils/errors";
-import ConditionalOperator from "./ConditionalOperator";
-import { handleArrayInCOPContain, handleObjectInObjectInCOPContain, handleStringInObjectInCOPContain, handleStringInStringInCOPContain } from "./utils";
+import { CheckError } from '../utils/errors';
+import ConditionalOperator from './ConditionalOperator';
+import { handleArrayInCOPContain, handleObjectInObjectInCOPContain, handleStringInObjectInCOPContain, handleStringInStringInCOPContain } from './utils';
 
 class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'notIncludes', 'nin'];
+  humanlyReadableAs: string = 'not in';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     let ret;
@@ -20,7 +21,7 @@ class NotContains extends ConditionalOperator {
     if (ret === null) {
       throw new CheckError({
         'status': false,
-        'conditionalOperator': "startsWith",
+        'conditionalOperator': 'startsWith',
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
@@ -29,8 +30,6 @@ class NotContains extends ConditionalOperator {
     }
     return !ret;
   }
-
-  humanlyReadableAs: string = 'not in';
 }
 
-export default NotContains
+export default NotContains;

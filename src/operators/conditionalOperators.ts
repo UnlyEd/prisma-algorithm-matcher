@@ -1,16 +1,16 @@
-import Equals from "../conditionalOperators/Equals";
-import GreaterThanEquals from "../conditionalOperators/GreaterThanEquals";
-import NotContains from "../conditionalOperators/NotContains";
-import LessThan from "../conditionalOperators/LessThan";
-import Some from "../conditionalOperators/Some";
-import GreaterThan from "../conditionalOperators/GreaterThan";
-import Every from "../conditionalOperators/Every";
-import Contains from "../conditionalOperators/Contains";
-import None from "../conditionalOperators/None";
-import StartsWith from "../conditionalOperators/StartsWith";
-import EndsWith from "../conditionalOperators/EndsWith";
-import NotEquals from "../conditionalOperators/NotEquals";
-import LessThanEquals from "../conditionalOperators/LessThanEquals";
+import Contains from '../conditionalOperators/Contains';
+import EndsWith from '../conditionalOperators/EndsWith';
+import Equals from '../conditionalOperators/Equals';
+import Every from '../conditionalOperators/Every';
+import GreaterThan from '../conditionalOperators/GreaterThan';
+import GreaterThanEquals from '../conditionalOperators/GreaterThanEquals';
+import LessThan from '../conditionalOperators/LessThan';
+import LessThanEquals from '../conditionalOperators/LessThanEquals';
+import None from '../conditionalOperators/None';
+import NotContains from '../conditionalOperators/NotContains';
+import NotEquals from '../conditionalOperators/NotEquals';
+import Some from '../conditionalOperators/Some';
+import StartsWith from '../conditionalOperators/StartsWith';
 
 export default [
   new Every(), new Some(), new None(),
