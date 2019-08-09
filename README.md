@@ -66,7 +66,7 @@ boolean = contextMatcher(context, filter, options: optionnal);
 
 ```
 
-**options**: This is an object containing the default options. For the moment it contains only:
+**options**: This is an **optionnal** object containing the default options. For the moment it contains only:
 ```js
 {
   'strictMatch': false // Set here case sensitivity
@@ -86,9 +86,10 @@ ES6
 import contextMatcher from "@unly/conditions-matcher";
 ```
 
-See the [examples](./examples) for more details.
-
 ---
+
+## Examples
+You can find the list of available [operators](./README-CONDITIONS.md) and some [examples](./examples).
 
 ## Contributing
 
