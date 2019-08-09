@@ -11,6 +11,7 @@ Check which conditions
 - [Getting started](#getting-started)
   * [Installation](#installation)
   * [Usage](#usage)
+- [Examples](#examples)
 - [Contributing](#contributing)
   * [Working locally](#working-locally)
   * [Test](#test)
