@@ -12,5 +12,5 @@ export const DEFAULT_CONDITION: string = 'equals';
  * Default options passed to the matching checker
  */
 export const defaultOptions = {
-  'strictMatch': false,
+  strictMatch: false,
 };

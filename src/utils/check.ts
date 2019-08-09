@@ -186,7 +186,7 @@ export const check = (context: object, rule: string, value: any, options: IMap =
 
   // If the given value is not defined (missing in context), it's treated as a particular case
   if (isUndefined(valueInContext)) {
-    if (options['strictMatch']) {
+    if (options['strictMatch'] === true) {
       // XXX In "strict match" mode, missing values in context are treated as a match failure
       return {
         'status': false,
