@@ -733,7 +733,7 @@ describe('src/conditions', () => {
         const ret = checkContextMatchesConditions(filter, context, { 'strictMatch': false });
         expect(ret.status).toEqual(true);
         expect(ret.ignoredConditions).toHaveLength(1);
-        console.log(ret)
+        // console.log(ret)
         // expect(ret.reason).toBeDefined(); // FIXME should be defined
       });
     });

@@ -8,7 +8,7 @@ import { and, not, or } from './logicalOperators';
       Attention toutefois, il faut pas que ça plante tout l'algo, mais plutôt que ça plante uniquement le filtre affecté
         Donc, utiliser du throw Error côté operators, mais plutôt retourner un tableau d'erreurs par la fonction "check" de façon à pouvoir compiler les erreurs et les gérer de la manière qu'on souhaite (sentry pour nous) tout en récupérant les résultats exploitables
  */
-describe('src/operators', () => {
+describe('src/logicalOperators', () => {
   describe('AND operator', () => {
     test('Values are true', () => {
       expect(and([true, true, true, true])).toEqual(true);
