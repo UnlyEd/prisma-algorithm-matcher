@@ -15,11 +15,11 @@ class EndsWith extends ConditionalOperator {
     }
     throw new CheckError({
       'status': false,
-      'conditionalOperator': 'startsWith',
+      'conditionalOperator': this.alias[0],
       'value': value,
       'contextValue': contextValue,
       'flags': flags,
-      'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
+      'reason': `Error: The operator "${this.alias[0]}" does not handle the types "${typeof contextValue}" and "${typeof value}"`,
     });
   }
 }

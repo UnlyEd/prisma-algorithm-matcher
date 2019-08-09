@@ -7,8 +7,8 @@ class NotContains extends ConditionalOperator {
   humanlyReadableAs: string = 'not in';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
-    let ret;
-    ret = handleStringInStringInCOPContain(value, contextValue, flags);
+    let ret = handleStringInStringInCOPContain(value, contextValue, flags);
+
     if (ret === null) {
       ret = handleArrayInCOPContain(value, contextValue, flags);
     }
@@ -18,14 +18,16 @@ class NotContains extends ConditionalOperator {
     if (ret === null) {
       ret = handleObjectInObjectInCOPContain(value, contextValue, flags);
     }
+
+    // XXX If no return value was resolved, it means the provided types aren't handled
     if (ret === null) {
       throw new CheckError({
         'status': false,
-        'conditionalOperator': 'startsWith',
+        'conditionalOperator': this.alias[0],
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
-        'reason': `Error: operator: startsWith does not handle type ${typeof contextValue} to ${typeof value}`,
+        'reason': `Error: The operator "${this.alias[0]}" does not handle the types "${typeof contextValue}" and "${typeof value}"`,
       });
     }
     return !ret;

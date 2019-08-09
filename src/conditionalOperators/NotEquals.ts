@@ -7,10 +7,11 @@ class NotEquals extends ConditionalOperator {
   humanlyReadableAs: string = 'not';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
-    if (flags.includes('i'))
+    if (flags.includes('i')) {
       return !isEqualWith(value, contextValue, checkStringEqualNoMatchCase);
-    else
+    } else {
       return !isEqual(value, contextValue);
+    }
   }
 }
 
