@@ -16,5 +16,6 @@ export class ValueNotFound extends Error {
     super(data);
     this.name = 'ValueNotFound';
     this.data = data;
+    this.message = 'ValueNotFound';
   }
 }

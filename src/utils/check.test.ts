@@ -175,6 +175,18 @@ describe('utils/check', () => {
     test(`every test`, async () => {
       expect(check(context, 'partner_number__every_eq', 42).status).toEqual(true);
     });
+    test(`every test with default value`, async () => {
+      expect(check(context, 'partner_number__every', 42).status).toEqual(true);
+    });
+    test(`every test with empty context`, async () => {
+      expect(() => {
+        check({}, 'partner_number__every', 42);
+      }).toThrowError(/ValueNotFound/);
+    });
+    test(`every test with empty context and strict match`, async () => {
+      expect(check({}, 'partner_number__every', 42, { 'strictMatch': true }).status).toBeFalsy();
+    });
+
     test(`some test`, async () => {
       expect(check(context, 'partner_name__some_eq', 'banque').status).toEqual(true);
     });
