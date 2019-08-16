@@ -4,6 +4,7 @@ export class CheckError extends Error {
   constructor(data: any) {
     super(data);
     this.name = 'CheckError';
+    this.message = 'CheckError';
     this.data = data;
   }
 }

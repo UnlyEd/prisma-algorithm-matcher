@@ -1,22 +1,22 @@
 import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
-import { handleArrayInCOPContain, handleObjectInObjectInCOPContain, handleStringInObjectInCOPContain, handleStringInStringInCOPContain } from './utils';
+import { handleStringInArray, handleObjectInObject, handleStringInObject, handleStringInString } from './utils';
 
 class NotContains extends ConditionalOperator {
-  alias: string[] = ['notContains', 'notIncludes', 'nin'];
-  humanlyReadableAs: string = 'not in';
+  alias: string[] = ['notContains', 'notIncludes', 'ncon'];
+  humanlyReadableAs: string = 'not contain';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
-    let ret = handleStringInStringInCOPContain(value, contextValue, flags);
+    let ret = handleStringInString(contextValue,value , flags);
 
     if (ret === null) {
-      ret = handleArrayInCOPContain(value, contextValue, flags);
+      ret = handleStringInArray(contextValue, value, flags);
     }
     if (ret === null) {
-      ret = handleStringInObjectInCOPContain(value, contextValue, flags);
+      ret = handleStringInObject(contextValue, value, flags);
     }
     if (ret === null) {
-      ret = handleObjectInObjectInCOPContain(value, contextValue, flags);
+      ret = handleObjectInObject(contextValue, value, flags);
     }
 
     // XXX If no return value was resolved, it means the provided types aren't handled

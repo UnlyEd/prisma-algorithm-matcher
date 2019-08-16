@@ -1,22 +1,23 @@
+import { type } from 'os';
 import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
-import { handleArrayInCOPContain, handleObjectInObjectInCOPContain, handleStringInObjectInCOPContain, handleStringInStringInCOPContain } from './utils';
+import { handleStringInArray, handleObjectInObject, handleStringInObject, handleStringInString } from './utils';
 
 class Contains extends ConditionalOperator {
-  alias: string[] = ['contains', 'includes', 'in'];
-  humanlyReadableAs: string = 'in';
+  alias: string[] = ['contains', 'con'];
+  humanlyReadableAs: string = 'contain';
 
-  callback(value: any, contextValue: any, flags: string[]): boolean {
-    let ret = handleStringInStringInCOPContain(value, contextValue, flags);
+  callback(value: any, contextValue: any, flags: string[] = []): boolean {
+    let ret = handleStringInString(contextValue, value, flags);
 
     if (ret === null) {
-      ret = handleArrayInCOPContain(value, contextValue, flags);
+      ret = handleStringInArray(contextValue, value, flags);
     }
     if (ret === null) {
-      ret = handleStringInObjectInCOPContain(value, contextValue, flags);
+      ret = handleStringInObject(contextValue, value, flags);
     }
     if (ret === null) {
-      ret = handleObjectInObjectInCOPContain(value, contextValue, flags);
+      ret = handleObjectInObject(contextValue, value, flags);
     }
     if (ret === null) {
       throw new CheckError({

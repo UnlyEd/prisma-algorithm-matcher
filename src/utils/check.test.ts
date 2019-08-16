@@ -117,29 +117,29 @@ describe('utils/check', () => {
     });
   });
 
-  describe('contains test', () => {
-    test(`contains operator`, async () => {
+  describe('inside test', () => {
+    test(`inside operator`, async () => {
       expect(check(context, 'school_name__in', ['STUDYLINK', 'UNLY']).status).toEqual(false);
     });
-    test(`contains operator with string`, async () => {
+    test(`inside operator with string`, async () => {
       expect(check(context, 'school_name__in', 'TECH').status).toEqual(true);
     });
-    test(`contains operator with bool`, async () => {
+    test(`inside operator with bool`, async () => {
       expect(check(context, 'school_isOpen__in', [true, 'epitech']).status).toEqual(true);
     });
-    test(`contains operator with number`, async () => {
+    test(`inside operator with number`, async () => {
       expect(check(context, 'school_averageGPA__in', [true, 2.5]).status).toEqual(true);
     });
-    test(`contain operator with object`, async () => {
-      expect(check(context, 'school__contains', { 'street': 'Baker Street' }).status).toEqual(true);
+    test(`inside operator with object`, async () => {
+      expect(check(context, 'school__in', { 'street': 'Baker Street' }).status).toEqual(true);
     });
   });
 
-  describe('not contains test', () => {
-    test(`not contains test`, async () => {
+  describe('not inside test', () => {
+    test(`not inside test`, async () => {
       expect(check(context, 'school_name__nin', ['EPITECH', 'UNLY']).status).toEqual(false);
     });
-    test(`not contains test should be false`, async () => {
+    test(`not inside test should be false`, async () => {
       expect(check(context, 'school_name__nin', ['STUDYLINK', 'UNLY']).status).toEqual(true);
     });
   });

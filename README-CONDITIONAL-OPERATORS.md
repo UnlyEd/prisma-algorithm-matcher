@@ -138,8 +138,7 @@ check(context, 'school_city__sw', 'on'); // true
 
  ### Aliases
 * contains
-* includes
-* in
+* con
 
 ### Example
 
@@ -153,11 +152,11 @@ const context = {
     "campus":[42, "Unly"],
     "campus__flags":['i']
 };
-check(context, 'school_name__in', 'aul'); // true
-check(context, 'school_location__in', {'city':"lyon"}); // true
-check(context, 'school_campus__in', 42); // true
-check(context, 'school_campus__in', 'Unly'); // true
-check(context, 'school_campus__in', 'unly'); // true
+check(context, 'school_name__con', 'aul'); // true
+check(context, 'school_location__con', {'city':"lyon"}); // true
+check(context, 'school_campus__con', 42); // true
+check(context, 'school_campus__con', 'Unly'); // true
+check(context, 'school_campus__con', 'unly'); // true
 ```
 
 ## Not Contains

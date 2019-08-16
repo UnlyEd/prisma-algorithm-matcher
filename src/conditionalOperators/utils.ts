@@ -17,7 +17,7 @@ export function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined
  * @param contextValue
  * @param flags
  */
-export function handleStringInStringInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleStringInString(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isString(value) && isString(contextValue)) {
     if (flags.includes('i')) {
       return contextValue.toLowerCase().includes(value.toLowerCase());
@@ -33,7 +33,7 @@ export function handleStringInStringInCOPContain(value: any, contextValue: any, 
  * @param contextValue
  * @param flags
  */
-export function handleArrayInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleStringInArray(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isArray(value)) {
     if (flags.includes('i')) {
       value = value.map((el) => {
@@ -52,7 +52,7 @@ export function handleArrayInCOPContain(value: any, contextValue: any, flags: st
  * @param contextValue
  * @param flags
  */
-export function handleStringInObjectInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleStringInObject(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isObject(value) && isString(contextValue)) {
     return value.hasOwnProperty(contextValue);
   }
@@ -65,7 +65,7 @@ export function handleStringInObjectInCOPContain(value: any, contextValue: any, 
  * @param contextValue
  * @param flags
  */
-export function handleObjectInObjectInCOPContain(value: any, contextValue: any, flags: string[]): boolean | null {
+export function handleObjectInObject(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isObject(value) && isObject(contextValue)) {
     let ret: boolean = true;
     keys(value).forEach((el) => {
