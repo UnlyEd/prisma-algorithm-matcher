@@ -2,206 +2,172 @@ import ConditionalOperator from './ConditionalOperator';
 import Contains from './Contains';
 import EndsWith from './EndsWith';
 import Equals from './Equals';
-import Every from './Every';
 import GreaterThan from './GreaterThan';
 import GreaterThanEquals from './GreaterThanEquals';
 import Inside from './Inside';
 import LessThan from './LessThan';
 import LessThanEquals from './LessThanEquals';
-import None from './None';
 import NotContains from './NotContains';
 import NotEquals from './NotEquals';
 import NotInside from './NotInside';
-import Some from './Some';
 import StartsWith from './StartsWith';
 
-describe('ConditionalOperator test', () => {
-  test('Conditional Operator default', () => {
+describe('ConditionalOperator test src/conditionalOperators/*', () => {
+  test('Conditional operator default function', () => {
     const operator = new ConditionalOperator();
-    expect(operator.callback(null)).toBeFalsy();
+    expect(operator.callback(null)).toBe(false);
   });
-  describe('Contains Operator', () => {
+
+  describe('Contains operator', () => {
     const operator = new Contains();
-    test('Contains Operator: string Hello World contain string Hello World should be true', () => {
-      expect(operator.callback('Hello World', 'Hello',)).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback('Hello World', 'Hello',)).toBe(true);
+      expect(operator.callback('Hello', ['Hello', 'World'])).toBe(true);
+      expect(operator.callback('Hello', { 'Hello': 'World' })).toBe(true);
     });
-    test('Contains Operator: Array [\'Hello\', \'World\'] contain string Hello should be true', () => {
-      expect(operator.callback('Hello', ['Hello', 'World'])).toBeTruthy();
-    });
-    test('Contains Operator: Object {\'Hello\':\'World\'}  contain Hello should be true', () => {
-      expect(operator.callback('Hello', { 'Hello': 'World' })).toBeTruthy();
-    });
-    test('Contains Operator: undefined in undefined', () => {
+    test('Value are false', () => {
       expect(() => {
         operator.callback(undefined, undefined);
       }).toThrowError(/CheckError/);
     });
   });
-  describe('End With Operator', () => {
+
+  describe('EndsWith operator', () => {
     const operator = new EndsWith();
-    test('End With operator: \'Hello\' endwith \'llo\' should be true', () => {
-      expect(operator.callback('llo', 'hello', [])).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback('llo', 'hello', [])).toBe(true);
     });
-    test('End With operator: undefined endwith undefined should throw', () => {
+    test('Value are false', () => {
       expect(() => {
         operator.callback(undefined, undefined, []);
       }).toThrowError('CheckError');
     });
   });
+
   describe('Equal Operator', () => {
     const operator = new Equals();
-    test('Equal with operator: null is equal  null', () => {
-      expect(operator.callback(null, null, [])).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback(null, null, [])).toBe(true);
+      expect(operator.callback({ 'hello': 'world', 'obj': {} }, { 'hello': 'world', 'obj': {} }, [])).toBe(true);
+      expect(operator.callback(['foo', 'bar'], ['foo', 'bar'], [])).toBe(true);
+      expect(operator.callback('Hello', 'Hello', [])).toBe(true);
     });
-    test('Equal with operator: object is equal object', () => {
-      expect(operator.callback({ 'hello': 'world', 'obj': {} }, { 'hello': 'world', 'obj': {} }, [])).toBeTruthy();
-    });
-    test('Equal with operator: array is equal array', () => {
-      expect(operator.callback(['foo', 'bar'], ['foo', 'bar'], [])).toBeTruthy();
-    });
-    test('Equal with operator: string is equal string', () => {
-      expect(operator.callback('Hello', 'Hello', [])).toBeTruthy();
-    });
-    test('Equal with operator: string is equal number', () => {
-      expect(operator.callback('42', 42, [])).toBeFalsy();
+    test('Values are false', () => {
+      expect(operator.callback('42', 42, [])).toBe(false);
+
     });
   });
+
   describe('Greater Than Operator', () => {
     const operator = new GreaterThan();
-    test('GreaterThan with: 42 and 24 should be true ', () => {
-      expect(operator.callback(24, 42)).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback(24, 42)).toBe(true);
+      expect(operator.callback('24', '42')).toBe(true);
     });
-    test('GreaterThan with: \'42\'and \'24\' should be true ', () => {
-      expect(operator.callback('24', '42')).toBeTruthy();
-    });
-    test('GreaterThan with: \'hello\'and \'hello\' should be true ', () => {
-      expect(operator.callback('hello', 'hello')).toBeFalsy();
+    test('Values are false', () => {
+      expect(operator.callback('hello', 'hello')).toBe(false);
     });
   });
+
   describe('GreaterThan Equal Operator', () => {
     const operator = new GreaterThanEquals();
-    test('GreaterThanEqual with: 42 and 24 should be true ', () => {
-      expect(operator.callback(24, 42)).toBeTruthy();
-    });
-    test('GreaterThanEqual with: \'42\'and \'24\' should be true ', () => {
-      expect(operator.callback('24', '42')).toBeTruthy();
-    });
-    test('GreaterThanEqual with: \'hello\'and \'hello\' should be true ', () => {
-      expect(operator.callback('hello', 'hello')).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback(24, 42)).toBe(true);
+      expect(operator.callback('24', '42')).toBe(true);
+      expect(operator.callback('hello', 'hello')).toBe(true);
     });
   });
+
   describe('Inside Operator', () => {
     const operator = new Inside();
-    test('Inside Operator: string Hello in string Hello World should be true', () => {
-      expect(operator.callback('Hello', 'Hello World',)).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback('Hello', 'Hello World',)).toBe(true);
+      expect(operator.callback('hello', 'Hello World', ['i'])).toBe(true);
+      expect(operator.callback(['Hello', 'World'], 'Hello')).toBe(true);
+      expect(operator.callback({ 'Hello': 'World' }, 'Hello')).toBe(true);
+      expect(operator.callback({ 'foo': { 'Hello': 'World' } }, { 'Hello': 'World' })).toBe(true);
     });
-    test('Inside Operator and i flag: string Hello in string Hello World should be true', () => {
-      expect(operator.callback('hello', 'Hello World', ['i'])).toBeTruthy();
-    });
-    test('Inside Operator: string Hello in Array [\'Hello\', \'World\'] input should be true', () => {
-      expect(operator.callback(['Hello', 'World'], 'Hello')).toBeTruthy();
-    });
-    test('Inside Operator: string Hello in Object {\'Hello\':\'World\'} input should be true', () => {
-      expect(operator.callback({ 'Hello': 'World' }, 'Hello')).toBeTruthy();
-    });
-    test('Inside Operator: Object {\'Hello\':\'World\'} in Object { \'foo\': {\'Hello\':\'World\'}  input should be true', () => {
-      expect(operator.callback({ 'foo': {'Hello':'World'} }, {'Hello':'World'})).toBeTruthy();
-    });
-    test('Inside Operator: undefined in undefined', () => {
+    test('Values are false', () => {
       expect(() => {
         operator.callback(undefined, undefined);
       }).toThrowError(/CheckError/);
     });
   });
+
   describe('Less Than Operator', () => {
     const operator = new LessThan();
-    test('LessThan with: 24 and 42 should be true ', () => {
-      expect(operator.callback(42, 24)).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback(42, 24)).toBe(true);
+      expect(operator.callback('42', '24')).toBe(true);
     });
-    test('LessThan with: \'24\'and \'42\' should be true ', () => {
-      expect(operator.callback('42', '24')).toBeTruthy();
-    });
-    test('LessThan with: \'hello\'and \'hello\' should be true ', () => {
-      expect(operator.callback('hello', 'hello')).toBeFalsy();
+    test('Values are false', () => {
+      expect(operator.callback('hello', 'hello')).toBe(false);
     });
   });
+
   describe('Less Than Equal Operator', () => {
     const operator = new LessThanEquals();
-    test('LessThanEqual with: 24 and 42 should be true ', () => {
-      expect(operator.callback(42, 24)).toBeTruthy();
-    });
-    test('LessThanEqual with: \'24\'and \'42\' should be true ', () => {
-      expect(operator.callback('42', '24')).toBeTruthy();
-    });
-    test('LessThanEqual with: \'hello\'and \'hello\' should be true ', () => {
-      expect(operator.callback('hello', 'hello')).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback(42, 24)).toBe(true);
+      expect(operator.callback('42', '24')).toBe(true);
+      expect(operator.callback('hello', 'hello')).toBe(true);
     });
   });
+
   describe('Not Contain Operator', () => {
     const operator = new NotContains();
-    test('Not Contains Operator: string Hello World contain string Hello World should be false', () => {
-      expect(operator.callback('Hello World', 'Hello', [])).toBeFalsy();
+    test('Values are true', () => {
+      expect(operator.callback('Hello World', 'Foo', [])).toBe(true);
     });
-    test('Not Contains Operator: Array [\'Hello\', \'World\'] contain string Hello should be false', () => {
-      expect(operator.callback('Hello', ['Hello', 'World'], [])).toBeFalsy();
-    });
-    test('Not Contains Operator: Object {\'Hello\':\'World\'}  contain Hello should be false', () => {
-      expect(operator.callback('Hello', { 'Hello': 'World' }, [])).toBeFalsy();
-    });
-    test('Not Contains Operator: undefined contain undefined', () => {
+    test('Values are false', () => {
+      expect(operator.callback('Hello World', 'Hello', [])).toBe(false);
+      expect(operator.callback('Hello', ['Hello', 'World'], [])).toBe(false);
+      expect(operator.callback('Hello', { 'Hello': 'World' }, [])).toBe(false);
       expect(() => {
         operator.callback(undefined, undefined, []);
       }).toThrowError(/CheckError/);
     });
   });
+
   describe('Not Equal Operator', () => {
     const operator = new NotEquals();
-    test('Not Equal with operator: null is equal  null', () => {
-      expect(operator.callback(null, null, [])).toBeFalsy();
+    test('Values are true', () => {
+      expect(operator.callback('HELLO WORLD', 'hello world', [])).toBe(true);
+      expect(operator.callback('42', 42, [])).toBe(true);
     });
-    test('Not Equal with operator: object is equal object', () => {
-      expect(operator.callback({ 'hello': 'world', 'obj': {} }, { 'hello': 'world', 'obj': {} }, [])).toBeFalsy();
-    });
-    test('Not Equal with operator: array is equal array', () => {
-      expect(operator.callback(['foo', 'bar'], ['foo', 'bar'], [])).toBeFalsy();
-    });
-    test('Not Equal with operator: string is equal string', () => {
-      expect(operator.callback('Hello', 'Hello', [])).toBeFalsy();
-    });
-    test('NotEqual with operator and i flag',()=>{
-      expect(operator.callback('HELLO WORLD', 'hello world', [])).toBeTruthy();
-      expect(operator.callback('HELLO WORLD', 'hello world', ['i'])).toBeFalsy();
-    });
-    test('Not Equal with operator: string is equal number', () => {
-      expect(operator.callback('42', 42, [])).toBeTruthy();
+    test('Values are false', () => {
+      expect(operator.callback(null, null, [])).toBe(false);
+      expect(operator.callback({ 'hello': 'world', 'obj': {} }, { 'hello': 'world', 'obj': {} }, [])).toBe(false);
+      expect(operator.callback(['foo', 'bar'], ['foo', 'bar'], [])).toBe(false);
+      expect(operator.callback('Hello', 'Hello', [])).toBe(false);
+      expect(operator.callback('HELLO WORLD', 'hello world', ['i'])).toBe(false);
     });
   });
+
   describe('Not Inside Operator', () => {
     const operator = new NotInside();
-    test('NotInside Operator: string Hello in string Hello World should be true', () => {
-      expect(operator.callback('Hello', 'Hello World',)).toBeFalsy();
+    test('Values are true', () => {
+      expect(operator.callback('foo', 'Hello World',)).toBe(true);
     });
-    test('NotInside Operator: string Hello in Array [\'Hello\', \'World\'] input should be true', () => {
-      expect(operator.callback(['Hello', 'World'], 'Hello')).toBeFalsy();
-    });
-    test('NotInside Operator: string Hello in Object {\'Hello\':\'World\'} input should be true', () => {
-      expect(operator.callback({ 'Hello': 'World' }, 'Hello')).toBeFalsy();
-    });
-    test('NotInside Operator: undefined in undefined', () => {
+    test('Values are false', () => {
       expect(() => {
         operator.callback(undefined, undefined);
       }).toThrowError(/CheckError/);
+      expect(operator.callback('Hello', 'Hello World',)).toBe(false);
+      expect(operator.callback(['Hello', 'World'], 'Hello')).toBe(false);
+      expect(operator.callback({ 'Hello': 'World' }, 'Hello')).toBe(false);
     });
   });
-  describe('Start With Operator', ()=>{
+
+  describe('Start With Operator', () => {
     const operator = new StartsWith();
-    test('StartWith operator: \'Hello\' start with \'Hel\' should be true', () => {
-      expect(operator.callback('Hel', 'Hello', [])).toBeTruthy();
+    test('Values are true', () => {
+      expect(operator.callback('Hel', 'Hello', [])).toBe(true);
     });
-    test('StartWith operator: undefined start with undefined should throw', () => {
+    test('Values are false', () => {
       expect(() => {
         operator.callback(undefined, undefined, []);
       }).toThrowError('CheckError');
     });
-  })
+  });
 });
