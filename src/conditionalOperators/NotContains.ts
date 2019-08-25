@@ -3,7 +3,7 @@ import ConditionalOperator from './ConditionalOperator';
 import { handleStringInArray, handleObjectInObject, handleStringInObject, handleStringInString } from './utils';
 
 class NotContains extends ConditionalOperator {
-  alias: string[] = ['notContains', 'notIncludes', 'ncon'];
+  alias: string[] = ['notContains', 'notIncludes', 'nin'];
   humanlyReadableAs: string = 'not contain';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {

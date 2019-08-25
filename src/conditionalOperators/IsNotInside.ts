@@ -2,9 +2,9 @@ import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
 import { handleStringInArray, handleObjectInObject, handleStringInObject, handleStringInString } from './utils';
 
-class Inside extends ConditionalOperator {
-  alias: string[] = ['includes', 'in'];
-  humanlyReadableAs: string = 'in';
+class IsNotInside extends ConditionalOperator {
+  alias: string[] = ['isNotInside', 'isnin'];
+  humanlyReadableAs: string = 'not inside';
 
   callback(value: any, contextValue: any, flags: string[] = []): boolean {
     let ret = handleStringInString(value, contextValue, flags);
@@ -21,15 +21,15 @@ class Inside extends ConditionalOperator {
     if (ret === null) {
       throw new CheckError({
         'status': false,
-        'conditionalOperator': "includes",
+        'conditionalOperator': 'includes',
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
         'reason': `Error: The operator includes does not handle the types "${typeof contextValue}" and "${typeof value}"`,
       });
     }
-    return ret;
+    return !ret;
   }
 }
 
-export default Inside;
+export default IsNotInside;

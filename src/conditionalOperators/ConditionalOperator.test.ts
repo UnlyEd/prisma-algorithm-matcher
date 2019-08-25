@@ -4,12 +4,12 @@ import EndsWith from './EndsWith';
 import Equals from './Equals';
 import GreaterThan from './GreaterThan';
 import GreaterThanEquals from './GreaterThanEquals';
-import Inside from './Inside';
+import IsInside from './IsInside';
 import LessThan from './LessThan';
 import LessThanEquals from './LessThanEquals';
 import NotContains from './NotContains';
 import NotEquals from './NotEquals';
-import NotInside from './NotInside';
+import IsNotInside from './IsNotInside';
 import StartsWith from './StartsWith';
 
 describe('ConditionalOperator test src/conditionalOperators/*', () => {
@@ -78,8 +78,8 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
     });
   });
 
-  describe('Inside Operator', () => {
-    const operator = new Inside();
+  describe('IsInside Operator', () => {
+    const operator = new IsInside();
     test('Values are true', () => {
       expect(operator.callback('Hello', 'Hello World',)).toBe(true);
       expect(operator.callback('hello', 'Hello World', ['i'])).toBe(true);
@@ -144,8 +144,8 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
     });
   });
 
-  describe('Not Inside Operator', () => {
-    const operator = new NotInside();
+  describe('Not IsInside Operator', () => {
+    const operator = new IsNotInside();
     test('Values are true', () => {
       expect(operator.callback('foo', 'Hello World',)).toBe(true);
     });

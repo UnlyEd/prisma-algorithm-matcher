@@ -1,10 +1,9 @@
-import { type } from 'os';
 import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
-import { handleStringInArray, handleObjectInObject, handleStringInObject, handleStringInString } from './utils';
+import { handleObjectInObject, handleStringInArray, handleStringInObject, handleStringInString } from './utils';
 
 class Contains extends ConditionalOperator {
-  alias: string[] = ['contains', 'con'];
+  alias: string[] = ['contains', 'inside', 'in'];
   humanlyReadableAs: string = 'contain';
 
   callback(value: any, contextValue: any, flags: string[] = []): boolean {
