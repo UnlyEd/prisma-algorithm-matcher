@@ -481,7 +481,7 @@ describe('src/conditions', () => {
               {
                 'AND': [ // true
                   {
-                    'organisation_name__in': ['skema', 'epitech', '42'], // true
+                    'organisation_name__isin': ['skema', 'epitech', '42'], // true
                     'OR': [ // true
                       {
                         'NOT': [ // true
@@ -510,7 +510,7 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       { // false
-                        'organisation_name__nin': ['42', 'epitech', '101'], // true
+                        'organisation_name__isnin': ['42', 'epitech', '101'], // true
                       },
                     ],
                   },
@@ -530,11 +530,11 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       { // false
-                        'organisation_name__nin': ['42', 'epitech', '101'], // true
+                        'organisation_name__isnin': ['42', 'epitech', '101'], // true
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__nin': ['A', 'B', 'C'], // false
+                    'organisation_plateform_grade__isnin': ['A', 'B', 'C'], // false
                   },
                 ],
               },
@@ -552,11 +552,11 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       {// true
-                        'organisation_name__nin': ['skema', '42', 'epitech', '101'], // false
+                        'organisation_name__isnin': ['skema', '42', 'epitech', '101'], // false
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__in': ['A', 'B', 'C'], // true
+                    'organisation_plateform_grade__isin': ['A', 'B', 'C'], // true
                   },
                 ],
               },
@@ -607,11 +607,11 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       { // false
-                        'organisation_name__nin': ['42', 'epitech', '101'], // true
+                        'organisation_name__isnin': ['42', 'epitech', '101'], // true
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__nin': ['A', 'B', 'C'], // false
+                    'organisation_plateform_grade__isnin': ['A', 'B', 'C'], // false
                   },
                 ],
               },
@@ -629,11 +629,11 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       {// true
-                        'organisation_name__nin': ['skema', '42', 'epitech', '101'], // false
+                        'organisation_name__isnin': ['skema', '42', 'epitech', '101'], // false
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__in': ['A', 'B', 'C'], // true
+                    'organisation_plateform_grade__isin': ['A', 'B', 'C'], // true
                   },
                 ],
               },

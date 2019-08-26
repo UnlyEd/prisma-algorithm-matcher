@@ -20,7 +20,7 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Contains operator', () => {
     const operator = new Contains();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('Hello World', 'Hello',)).toBe(true);
       expect(operator.callback('Hello', ['Hello', 'World'])).toBe(true);
       expect(operator.callback('Hello', { 'Hello': 'World' })).toBe(true);
@@ -34,7 +34,7 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('EndsWith operator', () => {
     const operator = new EndsWith();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('llo', 'hello', [])).toBe(true);
     });
     test('Value are false', () => {
@@ -46,13 +46,13 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Equal Operator', () => {
     const operator = new Equals();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback(null, null, [])).toBe(true);
       expect(operator.callback({ 'hello': 'world', 'obj': {} }, { 'hello': 'world', 'obj': {} }, [])).toBe(true);
       expect(operator.callback(['foo', 'bar'], ['foo', 'bar'], [])).toBe(true);
       expect(operator.callback('Hello', 'Hello', [])).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(operator.callback('42', 42, [])).toBe(false);
 
     });
@@ -60,18 +60,18 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Greater Than Operator', () => {
     const operator = new GreaterThan();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback(24, 42)).toBe(true);
       expect(operator.callback('24', '42')).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(operator.callback('hello', 'hello')).toBe(false);
     });
   });
 
   describe('GreaterThan Equal Operator', () => {
     const operator = new GreaterThanEquals();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback(24, 42)).toBe(true);
       expect(operator.callback('24', '42')).toBe(true);
       expect(operator.callback('hello', 'hello')).toBe(true);
@@ -80,14 +80,14 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('IsInside Operator', () => {
     const operator = new IsInside();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('Hello', 'Hello World',)).toBe(true);
       expect(operator.callback('hello', 'Hello World', ['i'])).toBe(true);
       expect(operator.callback(['Hello', 'World'], 'Hello')).toBe(true);
       expect(operator.callback({ 'Hello': 'World' }, 'Hello')).toBe(true);
       expect(operator.callback({ 'foo': { 'Hello': 'World' } }, { 'Hello': 'World' })).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(() => {
         operator.callback(undefined, undefined);
       }).toThrowError(/CheckError/);
@@ -96,18 +96,18 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Less Than Operator', () => {
     const operator = new LessThan();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback(42, 24)).toBe(true);
       expect(operator.callback('42', '24')).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(operator.callback('hello', 'hello')).toBe(false);
     });
   });
 
   describe('Less Than Equal Operator', () => {
     const operator = new LessThanEquals();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback(42, 24)).toBe(true);
       expect(operator.callback('42', '24')).toBe(true);
       expect(operator.callback('hello', 'hello')).toBe(true);
@@ -116,10 +116,10 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Not Contain Operator', () => {
     const operator = new NotContains();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('Hello World', 'Foo', [])).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(operator.callback('Hello World', 'Hello', [])).toBe(false);
       expect(operator.callback('Hello', ['Hello', 'World'], [])).toBe(false);
       expect(operator.callback('Hello', { 'Hello': 'World' }, [])).toBe(false);
@@ -131,11 +131,11 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Not Equal Operator', () => {
     const operator = new NotEquals();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('HELLO WORLD', 'hello world', [])).toBe(true);
       expect(operator.callback('42', 42, [])).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(operator.callback(null, null, [])).toBe(false);
       expect(operator.callback({ 'hello': 'world', 'obj': {} }, { 'hello': 'world', 'obj': {} }, [])).toBe(false);
       expect(operator.callback(['foo', 'bar'], ['foo', 'bar'], [])).toBe(false);
@@ -146,10 +146,10 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Not IsInside Operator', () => {
     const operator = new IsNotInside();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('foo', 'Hello World',)).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(() => {
         operator.callback(undefined, undefined);
       }).toThrowError(/CheckError/);
@@ -161,10 +161,10 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
 
   describe('Start With Operator', () => {
     const operator = new StartsWith();
-    test('Values are true', () => {
+    test('Output should be true', () => {
       expect(operator.callback('Hel', 'Hello', [])).toBe(true);
     });
-    test('Values are false', () => {
+    test('Output should be false', () => {
       expect(() => {
         operator.callback(undefined, undefined, []);
       }).toThrowError('CheckError');

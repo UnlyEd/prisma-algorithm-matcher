@@ -243,11 +243,11 @@ describe('utils/check', () => {
     test('endsWith i flag', async () => {
       expect(check(context, 'school_name__ew', 'tech').status).toEqual(true);
     });
-    test('contains i flag', async () => {
-      expect(check(context, 'school_name__in', ['epitech']).status).toEqual(true);
+    test('is inside i flag', async () => {
+      expect(check(context, 'school_name__isin', ['epitech']).status).toEqual(true);
     });
-    test('nocontains i flag', async () => {
-      expect(check(context, 'school_name__nin', ['epitech']).status).toEqual(false);
+    test('is not inside i flag', async () => {
+      expect(check(context, 'school_name__isnin', ['epitech']).status).toEqual(false);
     });
   });
 });
