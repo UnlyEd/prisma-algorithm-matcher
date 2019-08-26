@@ -67,34 +67,36 @@ describe('utils/check', () => {
     });
   });
 
-  describe('every some non test', () => {
-    test(`every test`, async () => {
-      expect(check(context, 'partner_number__every_eq', 42).status).toEqual(true);
-    });
-    test(`every test with default value`, async () => {
-      expect(check(context, 'partner_number__every', 42).status).toEqual(true);
-    });
-    test(`every test with empty context`, async () => {
-      expect(() => {
-        check({}, 'partner_number__every', 42);
-      }).toThrowError(/ValueNotFound/);
-    });
-    test(`every test with empty context and strict match`, async () => {
-      expect(check({}, 'partner_number__every', 42, { 'strictMatch': true }).status).toBeFalsy();
+  describe('complex operators', () => {
+    describe('every operator', () => {
+      test(`on standard usage`, async () => {
+        expect(check(context, 'partner_number__every_eq', 42).status).toEqual(true);
+      });
+      test(`with default value`, async () => {
+        expect(check(context, 'partner_number__every', 42).status).toEqual(true);
+      });
+      test(`with empty context`, async () => {
+        expect(() => {
+          check({}, 'partner_number__every', 42);
+        }).toThrowError(/ValueNotFound/);
+      });
+      test(`with empty context and strict match mode on`, async () => {
+        expect(check({}, 'partner_number__every', 42, { 'strictMatch': true }).status).toBeFalsy();
+      });
     });
 
-    test(`some test`, async () => {
-      expect(check(context, 'partner_name__some_eq', 'banque').status).toEqual(true);
+    describe('some operator', () => {
+      test(`on standard usage`, async () => {
+        expect(check(context, 'partner_name__some_eq', 'banque').status).toEqual(true);
+      });
     });
-    test(`none test`, async () => {
-      expect(check(context, 'partner_name__none_eq', 'fake_name').status).toEqual(true);
+
+    describe('non operator', () => {
+      test(`on standard usage`, async () => {
+        expect(check(context, 'partner_name__none_eq', 'fake_name').status).toEqual(true);
+        expect(check(context, 'school_name__none_eq', 'fake_name').status).toEqual(true);
+      });
     });
-    // Check with unexpected input (not array)
-    test(`none test`, async () => {
-      expect(check(context, 'school_name__every_eq', 'fake_name').status).toEqual(false);
-    });
-    test(`none test`, async () => {
-      expect(check(context, 'school_name__none_eq', 'fake_name').status).toEqual(true);
-    });
+
   });
 });

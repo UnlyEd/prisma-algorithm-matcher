@@ -2,14 +2,17 @@ import ConditionalOperator from './ConditionalOperator';
 import Contains from './Contains';
 import EndsWith from './EndsWith';
 import Equals from './Equals';
+import Every from './Every';
 import GreaterThan from './GreaterThan';
 import GreaterThanEquals from './GreaterThanEquals';
 import IsInside from './IsInside';
 import IsNotInside from './IsNotInside';
 import LessThan from './LessThan';
 import LessThanEquals from './LessThanEquals';
+import None from './None';
 import NotContains from './NotContains';
 import NotEquals from './NotEquals';
+import Some from './Some';
 import StartsWith from './StartsWith';
 
 describe('ConditionalOperator test src/conditionalOperators/*', () => {
@@ -174,6 +177,38 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
       expect(() => {
         operator.callback(undefined, undefined, []);
       }).toThrowError('CheckError');
+    });
+  });
+
+  describe('Every operator', () => {
+    const operator = new Every();
+    test('Output should be true', () => {
+      expect(operator.callback([true, true])).toBe(true);
+    });
+    test('Output should be false', () => {
+      expect(operator.callback([true, false])).toBe(false);
+    });
+  });
+
+  describe('Some operator', () => {
+    const operator = new Some();
+    test('Output should be true', () => {
+      expect(operator.callback([true, true])).toBe(true);
+      expect(operator.callback([true, false])).toBe(true);
+    });
+    test('Output should be false', () => {
+      expect(operator.callback([false, false])).toBe(false);
+    });
+  });
+
+  describe('None operator', () => {
+    const operator = new None();
+    test('Output should be true', () => {
+      expect(operator.callback([false, false])).toBe(true);
+    });
+    test('Output should be false', () => {
+      expect(operator.callback([true, false])).toBe(false);
+      expect(operator.callback([true, true])).toBe(false);
     });
   });
 });
