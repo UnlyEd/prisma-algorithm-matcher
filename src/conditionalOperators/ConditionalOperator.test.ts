@@ -25,7 +25,7 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
       expect(operator.callback('Hello', ['Hello', 'World'])).toBe(true);
       expect(operator.callback('Hello', { 'Hello': 'World' })).toBe(true);
     });
-    test('Value are false', () => {
+    test('Output should be false', () => {
       expect(() => {
         operator.callback(undefined, undefined);
       }).toThrowError(/CheckError/);
@@ -37,7 +37,7 @@ describe('ConditionalOperator test src/conditionalOperators/*', () => {
     test('Output should be true', () => {
       expect(operator.callback('llo', 'hello', [])).toBe(true);
     });
-    test('Value are false', () => {
+    test('Output should be false', () => {
       expect(() => {
         operator.callback(undefined, undefined, []);
       }).toThrowError('CheckError');
