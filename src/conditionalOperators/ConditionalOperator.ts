@@ -11,7 +11,7 @@ class ConditionalOperator implements IConditionalOperator {
    * @param contextValue
    * @param flags
    */
-   callback(value: any, contextValue?: any, flags?: string[]): boolean {
+  callback(value: any, contextValue?: any, flags?: string[]): boolean {
     return false;
   };
 }

@@ -1,4 +1,4 @@
-import { get, isArray, isEqual, isObject, isString, keys } from 'lodash';
+import { get, isArray, isEqual, isObject, isString } from 'lodash';
 
 /**
  * this function check if two string are equal without key sensitivity
@@ -17,7 +17,7 @@ export function checkStringEqualNoMatchCase(x: any, y: any): boolean | undefined
  * @param contextValue
  * @param flags
  */
-export function handleStringInString(value: any, contextValue: any, flags: string[]): boolean | null {
+export function isStringInString(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isString(value) && isString(contextValue)) {
     if (flags.includes('i')) {
       return contextValue.toLowerCase().includes(value.toLowerCase());
@@ -33,7 +33,7 @@ export function handleStringInString(value: any, contextValue: any, flags: strin
  * @param contextValue
  * @param flags
  */
-export function handleStringInArray(value: any, contextValue: any, flags: string[]): boolean | null {
+export function isStringInArray(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isArray(value)) {
     if (flags.includes('i')) {
       value = value.map((el) => {
@@ -52,7 +52,7 @@ export function handleStringInArray(value: any, contextValue: any, flags: string
  * @param contextValue
  * @param flags
  */
-export function handleStringInObject(value: any, contextValue: any, flags: string[]): boolean | null {
+export function isStringInObject(value: any, contextValue: any, flags: string[]): boolean | null {
   if (isObject(value) && isString(contextValue)) {
     return value.hasOwnProperty(contextValue);
   }
@@ -65,15 +65,19 @@ export function handleStringInObject(value: any, contextValue: any, flags: strin
  * @param contextValue
  * @param flags
  */
-export function handleObjectInObject(value: any, contextValue: any, flags: string[]): boolean | null {
+export function isObjectInObject(value: any, contextValue: any, flags?: string[]): boolean | null {
   if (isObject(value) && isObject(contextValue)) {
-    let ret: boolean = true;
-    keys(value).forEach((el) => {
-      if (keys(contextValue).includes(el) && !isEqual(get(contextValue, el, undefined), get(value, el, null))) {
-        ret = false;
+    for (const key in value) {
+      if (value.hasOwnProperty(key) && isEqual(get(value, key), contextValue)) {
+        return true;
       }
-    });
-    return ret;
+    }
+    for (const key in value) {
+      if (value.hasOwnProperty(key) && isObjectInObject(get(value, key), contextValue)) {
+        return true;
+      }
+    }
+    return false;
   }
   return null;
 }

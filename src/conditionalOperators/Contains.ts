@@ -1,22 +1,22 @@
 import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
-import { handleObjectInObject, handleStringInArray, handleStringInObject, handleStringInString } from './utils';
+import { isObjectInObject, isStringInArray, isStringInObject, isStringInString } from './utils';
 
 class Contains extends ConditionalOperator {
   alias: string[] = ['contains', 'inside', 'in'];
   humanlyReadableAs: string = 'contain';
 
   callback(value: any, contextValue: any, flags: string[] = []): boolean {
-    let ret = handleStringInString(contextValue, value, flags);
+    let ret = isStringInString(contextValue, value, flags);
 
     if (ret === null) {
-      ret = handleStringInArray(contextValue, value, flags);
+      ret = isStringInArray(contextValue, value, flags);
     }
     if (ret === null) {
-      ret = handleStringInObject(contextValue, value, flags);
+      ret = isStringInObject(contextValue, value, flags);
     }
     if (ret === null) {
-      ret = handleObjectInObject(contextValue, value, flags);
+      ret = isObjectInObject(contextValue, value, flags);
     }
     if (ret === null) {
       throw new CheckError({
