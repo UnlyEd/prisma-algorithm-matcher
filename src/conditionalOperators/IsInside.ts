@@ -3,7 +3,7 @@ import ConditionalOperator from './ConditionalOperator';
 import { isStringInArray, isObjectInObject, isStringInObject, isStringInString } from './utils';
 
 class IsInside extends ConditionalOperator {
-  alias: string[] = ['IsInside', 'isin'];
+  alias: string[] = ['IsInside', 'isIn'];
   humanlyReadableAs: string = 'is inside';
 
   callback(value: any, contextValue: any, flags: string[] = []): boolean {
