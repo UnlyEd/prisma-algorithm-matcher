@@ -510,7 +510,7 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       { // false
-                        'organisation_name__isnin': ['42', 'epitech', '101'], // true
+                        'organisation_name__isnIn': ['42', 'epitech', '101'], // true
                       },
                     ],
                   },
@@ -530,11 +530,11 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       { // false
-                        'organisation_name__isnin': ['42', 'epitech', '101'], // true
+                        'organisation_name__isnIn': ['42', 'epitech', '101'], // true
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__isnin': ['A', 'B', 'C'], // false
+                    'organisation_plateform_grade__isnIn': ['A', 'B', 'C'], // false
                   },
                 ],
               },
@@ -607,11 +607,11 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       { // false
-                        'organisation_name__isnin': ['42', 'epitech', '101'], // true
+                        'organisation_name__isnIn': ['42', 'epitech', '101'], // true
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__isnin': ['A', 'B', 'C'], // false
+                    'organisation_plateform_grade__isnIn': ['A', 'B', 'C'], // false
                   },
                 ],
               },
