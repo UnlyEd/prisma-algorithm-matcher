@@ -6,7 +6,7 @@ describe('EndsWith operator', () => {
     expect(operator.callback('llo', 'hello', [])).toBe(true);
     expect(operator.callback('LLO', 'hello', ['i'])).toBe(true);
   });
-  test('Output should be false', () => {
+  test('Output should throw', () => {
     expect(() => {
       operator.callback(undefined, undefined, []);
     }).toThrowError('CheckError');

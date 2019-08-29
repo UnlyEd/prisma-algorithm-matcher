@@ -10,10 +10,14 @@ describe('isInside operator', () => {
     expect(operator.callback({ 'foo': { 'Hello': 'World' } }, { 'Hello': 'World' })).toBe(true);
     expect(operator.callback({ 'foo': { 'bar': { 'Hello': 'World' } } }, { 'Hello': 'World' })).toBe(true);
   });
-  test('Output should be false', () => {
+
+  test('Output should throw', () => {
     expect(() => {
       operator.callback(undefined, undefined);
     }).toThrowError(/CheckError/);
+  });
+
+  test('Output should be false', () => {
     expect(operator.callback({ 'foo': { 'foo': 'foo' } }, { 'Hello': 'World' })).toBe(false);
   });
 });
