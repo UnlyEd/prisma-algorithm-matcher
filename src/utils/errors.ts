@@ -1,9 +1,10 @@
-import IErrorData from '../interfaces/IErrorData';
+import ICheckError from '../interfaces/ICheckError';
+import IValueNotFound from '../interfaces/IValueNotFound'
 
 export class CheckError extends Error {
-  public data: IErrorData;
+  public data: ICheckError;
 
-  constructor(data: IErrorData) {
+  constructor(data: ICheckError) {
     super();
     this.name = 'CheckError';
     this.message = `CheckError: ${data.reason}`;
@@ -12,9 +13,9 @@ export class CheckError extends Error {
 }
 
 export class ValueNotFound extends Error {
-  public data: IErrorData;
+  public data: IValueNotFound;
 
-  constructor(data: IErrorData) {
+  constructor(data: IValueNotFound) {
     super();
     this.name = 'ValueNotFound';
     this.data = data;
