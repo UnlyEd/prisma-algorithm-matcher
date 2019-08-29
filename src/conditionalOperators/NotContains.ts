@@ -4,7 +4,7 @@ import { isStringInArray, isObjectInObject, isStringInObject, isStringInString }
 
 class NotContains extends ConditionalOperator {
   alias: string[] = ['notContains', 'notIncludes', 'nin'];
-  humanlyReadableAs: string = 'not contain';
+  humanlyReadableAs: string = 'does not contain';
 
   callback(value: any, contextValue: any, flags: string[]): boolean {
     let ret = isStringInString(contextValue,value , flags);
@@ -27,7 +27,7 @@ class NotContains extends ConditionalOperator {
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
-        'reason': `Error: The operator "${this.alias[0]}" does not handle the types "${typeof contextValue}" and "${typeof value}"`,
+        'reason': `The operator "${this.alias[0]}" does not handle the types "${typeof contextValue}" and "${typeof value}"`,
       });
     }
     return !ret;

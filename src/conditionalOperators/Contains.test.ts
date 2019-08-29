@@ -8,7 +8,7 @@ describe('Contains operator', () => {
     expect(operator.callback('HELLO', ['Hello', 'World'], ['i'])).toBe(true);
     expect(operator.callback('Hello', { 'Hello': 'World' })).toBe(true);
   });
-  test('Output should be false', () => {
+  test('Output should throw', () => {
     expect(() => {
       operator.callback(undefined, undefined);
     }).toThrowError(/CheckError/);

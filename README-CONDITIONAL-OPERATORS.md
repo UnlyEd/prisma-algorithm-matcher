@@ -153,11 +153,11 @@ const context = {
     "campus":[42, "Unly"],
     "campus__flags":['i']
 };
-check(context, 'school_name__con', 'aul'); // true
-check(context, 'school_location__con', {'city':"lyon"}); // true
-check(context, 'school_campus__con', 42); // true
-check(context, 'school_campus__con', 'Unly'); // true
-check(context, 'school_campus__con', 'unly'); // true
+check(context, 'school_name__in', 'aul'); // true
+check(context, 'school_location__in', {'city':"lyon"}); // true
+check(context, 'school_campus__in', 42); // true
+check(context, 'school_campus__in', 'Unly'); // true
+check(context, 'school_campus__in', 'unly'); // true
 ```
 
 ## Not Contains
@@ -279,7 +279,7 @@ check(context, 'GPA__lte', '4'); // true
 > Object: Checks if a specific element is inside an  object.
 
  ### Aliases
-* IsInside
+* isInside
 * isIn
 
 ### Example

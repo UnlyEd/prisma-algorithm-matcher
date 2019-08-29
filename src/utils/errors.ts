@@ -1,21 +1,23 @@
-export class CheckError extends Error {
-  public data: any;
+import IErrorData from '../interfaces/IErrorData';
 
-  constructor(data: any) {
-    super(data);
+export class CheckError extends Error {
+  public data: IErrorData;
+
+  constructor(data: IErrorData) {
+    super();
     this.name = 'CheckError';
-    this.message = 'CheckError';
+    this.message = `CheckError: ${data.reason}`;
     this.data = data;
   }
 }
 
 export class ValueNotFound extends Error {
-  public data: any;
+  public data: IErrorData;
 
-  constructor(data: any) {
-    super(data);
+  constructor(data: IErrorData) {
+    super();
     this.name = 'ValueNotFound';
     this.data = data;
-    this.message = 'ValueNotFound';
+    this.message = `ValueNotFound:${data.reason}`;
   }
 }

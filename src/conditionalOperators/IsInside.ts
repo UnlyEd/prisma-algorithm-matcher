@@ -2,8 +2,8 @@ import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
 import { isStringInArray, isObjectInObject, isStringInObject, isStringInString } from './utils';
 
-class IsInside extends ConditionalOperator {
-  alias: string[] = ['IsInside', 'isIn'];
+class isInside extends ConditionalOperator {
+  alias: string[] = ['isInside', 'isIn'];
   humanlyReadableAs: string = 'is inside';
 
   callback(value: any, contextValue: any, flags: string[] = []): boolean {
@@ -25,11 +25,11 @@ class IsInside extends ConditionalOperator {
         'value': value,
         'contextValue': contextValue,
         'flags': flags,
-        'reason': `Error: The operator includes does not handle the types "${typeof contextValue}" and "${typeof value}"`,
+        'reason': `The operator includes does not handle the types "${typeof contextValue}" and "${typeof value}"`,
       });
     }
     return ret;
   }
 }
 
-export default IsInside;
+export default isInside;
