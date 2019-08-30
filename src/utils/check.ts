@@ -139,6 +139,7 @@ export const handleComplexRequest = (operators: string, path: string, context: I
       // XXX In "strict match" mode, missing values in context are treated as a match failure
       return {
         'status': false,
+        'is_ignored': true,
         'complex_operator': complexConditionalOperator,
         'conditionalOperator': conditionalOperator,
         'given_value': givenValue,

@@ -54,6 +54,43 @@ describe('src/conditions', () => {
         expect(checkContextMatchesConditions(filtersNestedSimple, contextNoisy)).toMatchObject({ 'status': false });
       });
 
+      test('oui', () => {
+        const oui = {
+          'OR': [
+            {
+              'AND': [
+                {
+                  'organisation_name': 'skema'
+                },
+                {
+                  'campus_name': 'paris-la-defense'
+                },
+                {
+                  'institution_name': 'skema-business-school'
+                }
+              ]
+            },
+            {
+              'AND': [
+                {
+                  'organisation_name': 'skema'
+                },
+                {
+                  'campus_name': 'lille'
+                },
+                {
+                  'institution_name': 'skema-business-school'
+                }
+              ]
+            }
+          ]
+        };
+        const ret = checkContextMatchesConditions(oui, {});
+        console.dir(ret.ignoredConditions, {depth:null, colors:true});
+        expect(ret.ignoredConditions).not.toBe(null);
+
+      });
+
       test(`should match when correct institution_name is in context`, async () => {
         const filtersSimple = {
           'institution_name': 'skema',
@@ -595,7 +632,7 @@ describe('src/conditions', () => {
           };
           const { status, ignoredConditions } = checkContextMatchesConditions(filtersNestedSimple, context);
           expect(status).toEqual(true);
-          expect(ignoredConditions).toMatchObject([{ conditionalOperator: 'wrong-arg' }]);
+          expect(ignoredConditions[0]).toMatchObject({ conditionalOperator: 'wrong-arg' });
         });
 
         test(`should work with multiple AND, OR and NOT`, async () => {
