@@ -2,7 +2,7 @@ import { CheckError } from '../utils/errors';
 import ConditionalOperator from './ConditionalOperator';
 import { isStringInArray, isObjectInObject, isStringInObject, isStringInString } from './utils';
 
-class isInside extends ConditionalOperator {
+class IsInside extends ConditionalOperator {
   alias: string[] = ['isInside', 'isIn'];
   humanlyReadableAs: string = 'is inside';
 
@@ -32,4 +32,4 @@ class isInside extends ConditionalOperator {
   }
 }
 
-export default isInside;
+export default IsInside;
