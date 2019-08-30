@@ -518,7 +518,7 @@ describe('src/conditions', () => {
               {
                 'AND': [ // true
                   {
-                    'organisation_name__isin': ['skema', 'epitech', '42'], // true
+                    'organisation_name__isIn': ['skema', 'epitech', '42'], // true
                     'OR': [ // true
                       {
                         'NOT': [ // true
@@ -593,7 +593,7 @@ describe('src/conditions', () => {
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__isin': ['A', 'B', 'C'], // true
+                    'organisation_plateform_grade__isIn': ['A', 'B', 'C'], // true
                   },
                 ],
               },
@@ -670,7 +670,7 @@ describe('src/conditions', () => {
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
-                    'organisation_plateform_grade__isin': ['A', 'B', 'C'], // true
+                    'organisation_plateform_grade__isIn': ['A', 'B', 'C'], // true
                   },
                 ],
               },
