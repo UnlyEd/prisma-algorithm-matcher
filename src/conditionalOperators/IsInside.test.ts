@@ -1,7 +1,7 @@
-import isInside from './isInside';
+import IsInside from './IsInside';
 
 describe('isInside operator', () => {
-  const operator = new isInside();
+  const operator = new IsInside();
   test('Output should be true', () => {
     expect(operator.callback('Hello', 'Hello World',)).toBe(true);
     expect(operator.callback('hello', 'Hello World', ['i'])).toBe(true);
