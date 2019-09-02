@@ -9,36 +9,36 @@ import { CheckError } from './utils/errors';
  * Resolve whether the given conditions are matched by the given context
  *
  * @example
-     filter:
-     {
-        'AND': [
-          {
-            'organisation_name': 'skema',
-            'institution_name': 'skema',
-            'campus_name': 'paris',
-          },
-        ],
-      }
+ filter:
+ {
+    'AND': [
+      {
+        'organisation_name': 'skema',
+        'institution_name': 'skema',
+        'campus_name': 'paris',
+      },
+    ],
+  }
 
-     context:
-     {
-        organisation: {
-          name: 'skema',
-        },
-        institution: {
-          name: 'skema',
-        },
-        campus: {
-          name: 'not-paris',
-        },
-      }
+ context:
+ {
+    organisation: {
+      name: 'skema',
+    },
+    institution: {
+      name: 'skema',
+    },
+    campus: {
+      name: 'not-paris',
+    },
+  }
 
-     returns:
-     {
-        status: false,
-        ignoredConditions: null,
-        reason: ""
-     }
+ returns:
+ {
+    status: false,
+    ignoredConditions: null,
+    reason: ""
+ }
 
  * @param filter
  * @param context

@@ -86,7 +86,7 @@ describe('checkMatches', () => {
           ]
         };
         const ret = checkContextMatchesConditions(oui, {});
-        console.dir(ret.ignoredConditions, {depth:null, colors:true});
+        console.dir(ret.ignoredConditions, { depth: null, colors: true });
         expect(ret.ignoredConditions).not.toBe(null);
 
       });
