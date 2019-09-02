@@ -1,6 +1,6 @@
-import checkContextMatchesConditions from './checkMatches';
+import checkContextMatchesConditions, { formatFilter } from './checkMatches';
 
-describe('src/conditions', () => {
+describe('checkMatches', () => {
   describe('checkContextMatchesConditions should', () => {
     describe('when using AND operator alone, without complex nesting (using both expressive AND or assumed AND)', () => {
       test(`should match when correct organisation_name is in context`, async () => {
@@ -772,6 +772,32 @@ describe('src/conditions', () => {
         expect(ret.ignoredConditions).toHaveLength(1);
         // console.log(ret)
         // expect(ret.reason).toBeDefined(); // FIXME should be defined
+      });
+    });
+  });
+
+  describe('formatFilter should', () => {
+    test('reformat simple nested filter', () => {
+      expect(formatFilter({
+        'AND': [
+          {
+            'organisation_name': 'skema',
+            'institution_name': 'skema',
+            'campus_name': 'paris',
+          },
+        ],
+        'organisation_name': 'skema',
+      })).toEqual({
+        'AND': [
+          {
+            'organisation_name': 'skema',
+          }, {
+            'institution_name': 'skema',
+          }, {
+            'campus_name': 'paris',
+          },
+        ],
+        'organisation_name': 'skema',
       });
     });
   });
