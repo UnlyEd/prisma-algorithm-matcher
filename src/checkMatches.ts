@@ -53,7 +53,7 @@ const checkContextMatchesConditions = (filter: IFilter, context: object, options
         } else {
           returnValues[logicalOperator] = returnValues[logicalOperator] || [];
           returnValues[logicalOperator].push(status);
-
+          //due too a regression now to make sure every ignored condition is handle by pushing it in the "ignoredConditions" array
           if (ignoredConditions) {
             ignoredConditions.forEach((ignoredCondition: object) => {
               ignoredConditionsCollection.push(ignoredCondition);
