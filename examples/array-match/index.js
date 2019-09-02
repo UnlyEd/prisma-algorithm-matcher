@@ -1,4 +1,4 @@
-import contextMatcher from '@unly/conditions-matcher';
+import contextMatcher from '../../lib/checkMatches';
 
 const checkAllSchoolsRateLowerThanThresholdThatFails = {
   'schools_rate__every_lte': 4.2, // false

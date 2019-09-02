@@ -1,4 +1,4 @@
-import contextMatcher from '@unly/conditions-matcher';
+import contextMatcher from '../../lib/checkMatches';
 
 const checkSchoolLocationCityThatSucceeds = {
   'school_location_city': "New York",
