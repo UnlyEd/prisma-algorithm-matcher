@@ -14,7 +14,6 @@ const checkSomeSchoolsNameStartsWithThatFails = {
 
 const checkAllSchoolsNameStartsWithInsensitiveThatSucceeds = {
   'schools_name__every_startsWith': 'I', // true
-  'schools_name__every_startsWith__flags': ['i'],
 };
 
 const checkNoSchoolsRateLowerThanThresholdThatSucceeds = {
@@ -25,6 +24,7 @@ const context = {
   schools: [
     {
       name: 'ISS',
+      name__flag: ["i"],
       rate: 4.2,
     },
     {
