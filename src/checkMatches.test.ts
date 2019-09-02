@@ -589,7 +589,7 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       {// true
-                        'organisation_name__isnin': ['skema', '42', 'epitech', '101'], // false
+                        'organisation_name__isnIn': ['skema', '42', 'epitech', '101'], // false
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
@@ -666,7 +666,7 @@ describe('src/conditions', () => {
                   {
                     'NOT': [
                       {// true
-                        'organisation_name__isnin': ['skema', '42', 'epitech', '101'], // false
+                        'organisation_name__isnIn': ['skema', '42', 'epitech', '101'], // false
                         'organisation_plateform_type__ne': 'school', // false
                       },
                     ],
