@@ -17,8 +17,8 @@ const checkMultipleRulesThatSucceeds = {
       'school_rate__lte': 3, // false
     }],
     'OR': [{ // true
-      'school_location_city__in': ['New York', 'New Jersey', 'Mexico City'], // true
-      'rate__lte': 2.5 // false
+      'school_location_city__isIn': ['New York', 'New Jersey', 'Mexico City'], // true
+      'school_rate__lte': 2.5 // false
     }]
   }]
 }
