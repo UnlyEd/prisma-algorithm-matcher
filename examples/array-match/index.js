@@ -29,10 +29,12 @@ const context = {
     },
     {
       name: 'ISE',
+      name__flag: ["i"],
       rate: 3.7,
     },
     {
       name: 'ICSE',
+      name__flag: ["i"],
       rate: 4.3,
     },
   ],
