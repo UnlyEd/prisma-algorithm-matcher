@@ -197,7 +197,7 @@ npm publish # Will publish to NPM
 
 MIT
 
-	# Vulnerability disclosure
+# Vulnerability disclosure
 
 [See our policy](https://github.com/UnlyEd/Unly).
 
